@@ -48,19 +48,19 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
 	$params['items'] = $items;
 	//$params['rule'] = $rule;
 	$params['context'] = $this->context;
-	$column = $rule->getColumn();
 	foreach($items as $delta => $item){
-	   $value = $item->{$column};
-	   $params['value'] = $value;
-	   $params['delta'] = $delta;
-	   $validator_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
-       // You can hard code configuration or you load from settings.
-	   foreach($rules_available as $rule){
-         $config = [];
-		 $params['rule'] = $rule;
-         $plugin_validator = $validator_manager->createInstance($rule->getPluginId(), $config);
-         $plugin_validator->validate($params);
-	   }
+	  $validator_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
+    // You can hard code configuration or you load from settings.
+	  foreach($rules_available as $rule) {
+      $column = $rule->getColumn();
+      $value = $item->{$column};
+      $params['value'] = $value;
+      $params['delta'] = $delta;
+      $config = [];
+      $params['rule'] = $rule;
+      $plugin_validator = $validator_manager->createInstance($rule->getPluginId(), $config);
+      $plugin_validator->validate($params);
+	  }
 	   
 	}
 
