@@ -109,8 +109,14 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
     // pass that through for validation.
 	$entity_type = $form_state->getValue('entity_type');
 	$bundle = $form_state->getValue('bundle');
-	$form_state->setValue('name', $entity_type . '_' . $bundle);
-	$form_state->setValue('label', $entity_type . ' ' . $bundle . ' ' . 'validation');
+	$ruleset_name = $entity_type . '_' . $bundle;
+	$ruleset = \Drupal::entityManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
+	if(empty($ruleset)){
+	  $form_state->setValue('name', $entity_type . '_' . $bundle);
+	  $form_state->setValue('label', $entity_type . ' ' . $bundle . ' ' . 'validation');
+	}else{
+	  $form_state->setErrorByName('bundle', $this->t('A field validation rule set already exists for this bundle'));
+	}
 
   }  
   /**
