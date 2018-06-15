@@ -46,7 +46,7 @@ class FieldValidationRuleAddForm extends FieldValidationRuleFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, FieldValidationRuleSetInterface $field_validation_rule_set = NULL, $field_validation_rule = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, FieldValidationRuleSetInterface $field_validation_rule_set = NULL, $field_validation_rule = NULL, $field_name='') {
     $form = parent::buildForm($form, $form_state, $field_validation_rule_set, $field_validation_rule);
     //drupal_set_message('term_id:' . var_export($field_validation_rule));
     $form['#title'] = $this->t('Add %label field validation rule', array('%label' => $this->fieldValidationRule->label()));
