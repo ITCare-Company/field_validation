@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\FieldValidationRuleSetInterface.
- */
-
 namespace Drupal\field_validation;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;

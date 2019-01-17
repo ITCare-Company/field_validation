@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\FieldValidationRuleManager.
- */
-
 namespace Drupal\field_validation;
 
 use Drupal\Core\Cache\CacheBackendInterface;

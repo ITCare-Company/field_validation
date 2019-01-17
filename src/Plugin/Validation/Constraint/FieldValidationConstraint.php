@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Plugin\Validation\Constraint\FieldValidationConstraint.
- */
-
 namespace Drupal\field_validation\Plugin\Validation\Constraint;
 
 use Symfony\Component\Validator\Constraint;

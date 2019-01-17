@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Annotation\FieldValidationRule.
- */
-
 namespace Drupal\field_validation\Annotation;
 
 use Drupal\Component\Annotation\Plugin;

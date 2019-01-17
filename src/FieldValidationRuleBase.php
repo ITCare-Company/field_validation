@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\FieldValidationRuleBase.
- */
-
 namespace Drupal\field_validation;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;

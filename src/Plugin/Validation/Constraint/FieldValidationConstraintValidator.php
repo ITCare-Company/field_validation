@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Plugin\Validation\Constraint\FieldValidationConstraintValidator.
- */
-
 namespace Drupal\field_validation\Plugin\Validation\Constraint;
 
 use Drupal\Core\Entity\Entity;

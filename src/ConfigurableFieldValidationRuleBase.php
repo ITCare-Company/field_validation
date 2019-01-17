@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\ConfigurableFieldValidationRuleBase.
- */
-
 namespace Drupal\field_validation;
 
 use Drupal\Core\Form\FormStateInterface;

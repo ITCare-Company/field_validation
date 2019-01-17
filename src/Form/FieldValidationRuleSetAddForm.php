@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Form\FieldValidationRuleSetAddForm.
- */
-
 namespace Drupal\field_validation\Form;
 
 use Drupal\Core\Form\FormStateInterface;

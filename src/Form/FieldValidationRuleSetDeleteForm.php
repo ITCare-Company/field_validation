@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Form\FieldValidationRuleSetDeleteForm.
- */
-
 namespace Drupal\field_validation\Form;
 
 use Drupal\Core\Entity\EntityDeleteForm;

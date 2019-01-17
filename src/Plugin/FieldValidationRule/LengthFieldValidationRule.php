@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Plugin\FieldValidationRule\LengthFieldValidationRule.
- */
-
 namespace Drupal\field_validation\Plugin\FieldValidationRule;
 
 use Drupal\Core\Form\FormStateInterface;

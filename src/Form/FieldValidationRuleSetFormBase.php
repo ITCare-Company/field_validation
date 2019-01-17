@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Form\FieldValidationRuleSetFormBase.
- */
-
 namespace Drupal\field_validation\Form;
 
 use Drupal\Core\Entity\EntityForm;

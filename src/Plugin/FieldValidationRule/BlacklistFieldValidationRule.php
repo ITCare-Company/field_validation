@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field_validation\Plugin\FieldValidationRule\BlacklistFieldValidationRule.
- */
-
 namespace Drupal\field_validation\Plugin\FieldValidationRule;
 
 use Drupal\Core\Form\FormStateInterface;
