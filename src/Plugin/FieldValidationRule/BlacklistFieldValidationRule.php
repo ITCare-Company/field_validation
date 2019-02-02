@@ -54,8 +54,8 @@ class BlacklistFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['setting'] = array(
       '#type' => 'textarea',
-      '#title' => t('Blacklisted words'),
-      '#description' => t("Specify illegal words, seperated by commas. Make sure to escape reserved regex characters with an escape (\) character."),	  
+      '#title' => $this->t('Blacklisted words'),
+      '#description' => $this->t('Specify illegal words, seperated by commas. Make sure to escape reserved regex characters with an escape (\) character.'),
       '#default_value' => $this->configuration['setting'],
       '#required' => TRUE,
     );

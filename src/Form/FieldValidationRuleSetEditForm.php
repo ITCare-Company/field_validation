@@ -72,7 +72,7 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
       '#attributes' => array(
         'id' => 'field-validation-rule-set-rules',
       ),
-      '#empty' => t('There are currently no rules in this rule set. Add one by selecting an option below.'),
+      '#empty' => $this->t('There are currently no rules in this rule set. Add one by selecting an option below.'),
       // Render tabs below parent elements.
       '#weight' => 5,
     );

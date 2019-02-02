@@ -55,13 +55,13 @@ class LengthFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['min'] = array(
       '#type' => 'textfield',
-      '#title' => t('Min'),
+      '#title' => $this->t('Min'),
       '#default_value' => $this->configuration['min'],
       '#required' => TRUE,
     );
     $form['max'] = array(
       '#type' => 'textfield',
-      '#title' => t('Max'),
+      '#title' => $this->t('Max'),
       '#default_value' => $this->configuration['max'],
       '#required' => TRUE,
     );	

@@ -54,8 +54,8 @@ class RegexFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['setting'] = array(
       '#type' => 'textarea',
-      '#title' => t('Pattern'),
-      '#description' => t("Specify the Perl-compatible regular expression pattern to validate the user input against."),	  
+      '#title' => $this->t('Pattern'),
+      '#description' => $this->t('Specify the Perl-compatible regular expression pattern to validate the user input against.'),
       '#default_value' => $this->configuration['setting'],
       '#required' => TRUE,
     );

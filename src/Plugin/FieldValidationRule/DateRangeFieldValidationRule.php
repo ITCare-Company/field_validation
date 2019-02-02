@@ -55,30 +55,30 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['cycle'] = array(
-      '#title' => t('Cycle of date'),
-      '#description' => t("Specify the cycle of date, support: global, year, month, week, day, hour, minute."),
+      '#title' => $this->t('Cycle of date'),
+      '#description' => $this->t('Specify the cycle of date, support: global, year, month, week, day, hour, minute.'),
       '#type' => 'select',
       '#options' => array(
-        'global' => t('Global'),
-        'year' => t('Year'),
-        'month' => t('Month'),
-        'week' => t('Week'),
-        'day' => t('Day'),
-        'hour' => t('Hour'),
-        'minute' => t('Minute'),
+        'global' => $this->t('Global'),
+        'year' => $this->t('Year'),
+        'month' => $this->t('Month'),
+        'week' => $this->t('Week'),
+        'day' => $this->t('Day'),
+        'hour' => $this->t('Hour'),
+        'minute' => $this->t('Minute'),
       ),  
       '#default_value' => $this->configuration['cycle'],
     );  
     $form['min'] = array(
       '#type' => 'textfield',
-      '#title' => t('Minimum date'),
-	  '#description' => t("Optionally specify the minimum date."),
+      '#title' => $this->t('Minimum date'),
+	    '#description' => $this->t('Optionally specify the minimum date.'),
       '#default_value' => $this->configuration['min'],
     );
     $form['max'] = array(
       '#type' => 'textfield',
-      '#title' => t('Maximum date'),
-	  '#description' => t("Optionally specify the maximum date."),
+      '#title' => $this->t('Maximum date'),
+	    '#description' => $this->t('Optionally specify the maximum date.'),
       '#default_value' => $this->configuration['max'],
     );
 	/*

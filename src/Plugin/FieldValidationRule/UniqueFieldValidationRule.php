@@ -53,12 +53,12 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['scope'] = array(
-      '#title' => t('Scope of unique'),
-      '#description' => t("Specify the scope of unique values, support: entity, bundle."),
+      '#title' => $this->t('Scope of unique'),
+      '#description' => $this->t('Specify the scope of unique values, support: entity, bundle.'),
       '#type' => 'select',
       '#options' => array(
-        'entity' => t('Entity'),
-        'bundle' => t('Bundle'),
+        'entity' => $this->t('Entity'),
+        'bundle' => $this->t('Bundle'),
       ),
       '#default_value' => $this->configuration['scope'],
     );

@@ -81,7 +81,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
   protected function findBundle($entity_type) {
     //\Drupal::logger('field_validation')->notice('1234:' . $field_name);
     $bundle_options = array(
-      '' => t('- Select -'),
+      '' => $this->t('- Select -'),
     );
 	if(empty($entity_type)){
 	  return $bundle_options;

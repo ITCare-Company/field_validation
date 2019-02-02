@@ -76,7 +76,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	
     $form['title'] = array(
       '#type' => 'textfield',
-      '#title' => t('Field Validation Rule title'),
+      '#title' => $this->t('Field Validation Rule title'),
       '#default_value' => $this->fieldValidationRule->getTitle(),
       '#required' => TRUE,
     );
@@ -84,7 +84,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	$bundle = $this->fieldValidationRuleSet->getAttachedBundle();
 	//$field_options = array();
     $field_options = array(
-      '' => t('- Select -'),
+      '' => $this->t('- Select -'),
     );	
 	foreach (\Drupal::entityManager()->getFieldDefinitions($entity_type_id, $bundle) as $fieldname => $field_definition) {
       if (!empty($field_definition->getTargetBundle())) {
@@ -109,7 +109,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	
     $form['field_name'] = array(
       '#type' => 'select',
-      '#title' => t('Field name'),
+      '#title' => $this->t('Field name'),
 	  '#options' => $field_options,
       '#default_value' => $default_field_name,
       '#required' => TRUE,
@@ -124,7 +124,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	//if()
     $form['column'] = array(
       '#type' => 'select',
-      '#title' => t('Column of field'),
+      '#title' => $this->t('Column of field'),
 	  '#options' => $this->findColumn($default_field_name),
       '#default_value' => $default_column,
       '#required' => TRUE,
@@ -135,7 +135,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $form['data'] = $this->fieldValidationRule->buildConfigurationForm(array(), $form_state);
     $form['error_message'] = array(
       '#type' => 'textfield',
-      '#title' => t('Error message'),
+      '#title' => $this->t('Error message'),
       '#default_value' => $this->fieldValidationRule->getErrorMessage(),
       '#required' => TRUE,
     );	
@@ -186,7 +186,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
   protected function findColumn($field_name) {
     //\Drupal::logger('field_validation')->notice('1234:' . $field_name);
     $column_options = array(
-      '' => t('- Select -'),
+      '' => $this->t('- Select -'),
     );
 	if(empty($field_name)){
 	  return $column_options;
