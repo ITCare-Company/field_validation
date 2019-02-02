@@ -204,6 +204,10 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
 
     // Load the configuration form for this option.
     if (is_subclass_of($field_validation_rule['class'], '\Drupal\field_validation\ConfigurableFieldValidationRuleInterface')) {
+      // Remove the destination parameter as it redirects us back to the
+      // overview.
+      $this->getRequest()->query->remove('destination');
+
       $form_state->setRedirect(
         'field_validation.field_validation_rule_add_form',
         array(
