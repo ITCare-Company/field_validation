@@ -24,7 +24,7 @@ use Drupal\field_validation\FieldValidationRulePluginCollection;
  *     "list_builder" = "Drupal\field_validation\FieldValidationRuleSetListBuilder",
  *   },
  *   admin_permission = "administer field validation rule set",
- *   config_prefix = "fv",
+ *   config_prefix = "rule_set",
  *   entity_keys = {
  *     "id" = "name",
  *     "label" = "label"
