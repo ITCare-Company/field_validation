@@ -20,7 +20,7 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   /**
    * {@inheritdoc}
    */
-   
+
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
 
     return TRUE;
@@ -66,9 +66,9 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         'day' => $this->t('Day'),
         'hour' => $this->t('Hour'),
         'minute' => $this->t('Minute'),
-      ),  
+      ),
       '#default_value' => $this->configuration['cycle'],
-    );  
+    );
     $form['min'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Minimum date'),
@@ -86,7 +86,7 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       '#markup' => t('For minimum and maximum time, we only support date format "Y-m-d H:i:s", here is the relation between cycle and minimum/maximum date format:')
       . theme('item_list', array('items' => array(t('global - [Y-m-d H:i:s]'), t('year - [m-d H:i:s]'), t('month - [d H:i:s]'), t('week - [w H:i:s]'), t('day - [H:i:s]'), t('hour - [i:s]'), t('minute - [s]'))))
       . t('If cycle is "global", it support more date formats which could be converted through strtotime(), such as "now", "+1 month", "+1 day", it also support "value + 1 day", "value2 - 1 day", at here "value" means start date of user input, "value2" means end date'),
-    );	
+    );
 	*/
     return $form;
   }
@@ -101,7 +101,7 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 	$this->configuration['max'] = $form_state->getValue('max');
 	$this->configuration['cycle'] = $form_state->getValue('cycle');
   }
-  
+
   public function validate($params) {
     $value = isset($params['value']) ? $params['value'] : '';
 	$rule = isset($params['rule']) ? $params['rule'] : null;
@@ -132,41 +132,51 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
           //$settings['max'] = strtr($settings['max'], $tokens);
           $settings['max'] = strtotime($settings['max']);
           $settings['max'] = date("Y-m-d H:i:s", $settings['max']);
+          $str_place = 0;
         }
       }
       if ($cycle =='year') {
-        $date_str = substr($date_str, 5);
+        $str_place = 5;
+        $date_str = substr($date_str, $str_place);
       }
       elseif ($cycle =='month') {
-        $date_str = substr($date_str, 8);
+        $str_place = 8;
+        $date_str = substr($date_str, $str_place);
       }
       elseif ($cycle =='week') {
+        $str_place = 10;
         $week_day = date('w', strtotime($date_str));
-        $date_str = substr($date_str, 10);
+        $date_str = substr($date_str, $str_place);
         $date_str = $week_day . $date_str;
+
       }
       elseif ($cycle =='day') {
-        $date_str = substr($date_str, 11);
+        $str_place = 11;
+        $date_str = substr($date_str, $str_place);
+
       }
       elseif ($cycle =='hour') {
-        $date_str = substr($date_str, 14);
+        $str_place = 14;
+        $date_str = substr($date_str, $str_place);
+
       }
       elseif ($cycle =='minute') {
-        $date_str = substr($date_str, 17);
+        $str_place = 17;
+        $date_str = substr($date_str, $str_place);
       }
 
-      if (!empty($settings['min'])  && $date_str < $settings['min']) {
+      if (!empty($settings['min'])  && $date_str <  substr($settings['min'], $str_place)) {
         $flag = TRUE;
       }
-      if (!empty($settings['max'])  && $date_str > $settings['max']) {
+      if (!empty($settings['max'])  && $date_str > substr($settings['max'], $str_place)) {
         $flag = TRUE;
       }
 
       if ($flag) {
         $context->addViolation($rule->getErrorMessage());
-      }      
+      }
 
-    }	
+    }
     //return true;
   }
 }

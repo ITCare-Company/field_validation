@@ -20,7 +20,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   /**
    * {@inheritdoc}
    */
-   
+
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
 
     return TRUE;
@@ -56,14 +56,14 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $country_options = array();
     foreach ($countries as $country_code => $country) {
       $country_options[$country_code] = isset($country['name']) ? $country['name'] : '';
-    }  
+    }
     $form['country'] = array(
       '#title' => $this->t('Country'),
       '#type' => 'select',
-      '#options' => $country_options, 
+      '#options' => $country_options,
       '#default_value' => $this->configuration['country'],
     );
-	
+
     return $form;
   }
 
@@ -75,7 +75,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $this->configuration['country'] = $form_state->getValue('country');
   }
-  
+
   public function validate($params) {
     $value = isset($params['value']) ? $params['value'] : '';
 	$rule = isset($params['rule']) ? $params['rule'] : null;
@@ -93,10 +93,10 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         $context->addViolation($rule->getErrorMessage());
       }
 
-    }	
-	
+    }
+
   }
-  
+
   public function phone_countries() {
    $countries = array(
       'fr' => array(
@@ -137,7 +137,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       ),
       'ru' => array(
         'name' => $this->t('Russia'),
-        'regex' => "/\D*[78]?\D*\d{3,5}\D*\d{1,3}\D*\d{2}\D*\d{2}\D*/x",
+        'regex' => "/^\D*[78]?\D*\d{3,5}\D*\d{1,3}\D*\d{2}\D*\d{2}\D*/x",
       ),
       /*
       'ua' => array(
@@ -159,7 +159,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       ),
       'hu' => array(
         'name' => $this->t('Poland - mobiles only'),
-        'regex' => "/\D*(?:\+?36|06)?(\d\d?)\D*(\d{3})\D*(\d{3,4})\D*$/x",
+        'regex' => "/^\D*(?:\+?36|06)?(\d\d?)\D*(\d{3})\D*(\d{3,4})\D*$/x",
       ),
       'pl' => array(
         'name' => $this->t('Poland'),
@@ -203,7 +203,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       'hk' => array(
         'name' => t('Hong-Kong'),
         'regex' => '',
-      ), 
+      ),
       'mo' => array(
         'name' => t('Macao'),
         'regex' => '',
@@ -238,7 +238,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         'regex' => "/^(([+]\d{2}[ ][1-9]\d{0,2}[ ])|([0]\d{1,3}[-]))((\d{2}([ ]\d{2}){2})|(\d{3}([ ]\d{3})*([ ]\d{2})+))$/i",
       ),
     );
-  
+
     return $countries;
-  }  
+  }
 }
