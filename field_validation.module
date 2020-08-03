@@ -7,7 +7,7 @@
 function field_validation_entity_bundle_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type, $bundle) {
 
   $ruleset_name = $entity_type->id() . '_' . $bundle;
-  $ruleset = \Drupal::entityManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
+  $ruleset = \Drupal::entityTypeManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
 
   if($ruleset){
     foreach ($fields as $field) {
@@ -28,6 +28,6 @@ function field_validation_entity_bundle_field_info_alter(&$fields, \Drupal\Core\
 	  }
     }
 	*/
-  }  
- 
+  }
+
 }

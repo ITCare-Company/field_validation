@@ -73,7 +73,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#type' => 'hidden',
       '#value' => $this->fieldValidationRule->getPluginId(),
     );
-	
+
     $form['title'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Field Validation Rule title'),
@@ -85,11 +85,11 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	//$field_options = array();
     $field_options = array(
       '' => $this->t('- Select -'),
-    );	
-	foreach (\Drupal::entityManager()->getFieldDefinitions($entity_type_id, $bundle) as $fieldname => $field_definition) {
+    );
+	foreach (\Drupal::entityTypeManager()->getFieldDefinitions($entity_type_id, $bundle) as $fieldname => $field_definition) {
       if (!empty($field_definition->getTargetBundle())) {
 		$field_options[$fieldname] = $field_definition->getLabel();
-		
+
 		//if($field_name == 'field_test'){
 		 // $field_all = \Drupal\field\Entity\FieldStorageConfig::loadByName('node', $field_name);
 		 //$field_all = $field_definition->getPropertyDefinitions();
@@ -106,7 +106,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	if(!empty($field_name)){
 	  $default_field_name = $field_name;
 	}
-	
+
     $form['field_name'] = array(
       '#type' => 'select',
       '#title' => $this->t('Field name'),
@@ -116,7 +116,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#ajax' => array(
         'callback' => '::updateColumn',
         'wrapper' => 'edit-field-name-wrapper',
-      ),	  
+      ),
     );
 	//$default_field_name = $form_state->getValue('field_name', $field_name);
 	$default_column = $this->fieldValidationRule->getColumn();
@@ -130,17 +130,17 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#required' => TRUE,
       '#prefix' => '<div id="edit-field-name-wrapper">',
       '#suffix' => '</div>',
-      '#validated' => TRUE,	  
-    );	
+      '#validated' => TRUE,
+    );
     $form['data'] = $this->fieldValidationRule->buildConfigurationForm(array(), $form_state);
     $form['error_message'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Error message'),
       '#default_value' => $this->fieldValidationRule->getErrorMessage(),
       '#required' => TRUE,
-    );	
+    );
     $form['data']['#tree'] = TRUE;
-	
+
 	//drupal_set_message('term_id:' . var_export($form['data']));
 
     // Check the URL for a weight, then the fieldValidationRule, otherwise use default.
@@ -157,19 +157,19 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $form['actions']['cancel'] = array(
       '#type' => 'link',
       '#title' => $this->t('Cancel'),
-      '#url' => $this->fieldValidationRuleSet->urlInfo('edit-form'),
+      '#url' => $this->fieldValidationRuleSet->toUrl('edit-form'),
       '#attributes' => ['class' => ['button']],
     );
     return $form;
   }
-  
+
   /**
    * Handles switching the configuration type selector.
    */
   public function updateColumn($form, FormStateInterface $form_state) {
     $form['column']['#default_value'] = '';
     $form['column']['#options'] = $this->findColumn($form_state->getValue('field_name'));
-	
+
 	//\Drupal::logger('field_validation')->notice('123:' . $form_state->getValue('field_name'));
 	// \Drupal::logger('field_validation')->notice('123:' . var_export($form['column']['#options'], true));
 	/*$form['column']['#options'] = array(
@@ -203,7 +203,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	}
     return $column_options;
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -253,8 +253,8 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     }
 	$this->fieldValidationRuleSet->save();
     //drupal_set_message(var_export($this->fieldValidationRuleSet, true));
-    drupal_set_message($this->t('The rule was successfully applied.'));
-    $form_state->setRedirectUrl($this->fieldValidationRuleSet->urlInfo('edit-form'));
+	  $this->messenger()->addMessage($this->t('The rule was successfully applied.'));
+	  $form_state->setRedirectUrl($this->fieldValidationRuleSet->toUrl('edit-form'));
   }
 
   /**

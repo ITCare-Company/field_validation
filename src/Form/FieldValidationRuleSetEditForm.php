@@ -39,7 +39,7 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('field_validation_rule_set'),
+      $container->get('entity_type.manager')->getStorage('field_validation_rule_set'),
       $container->get('plugin.manager.field_validation.field_validation_rule')
     );
   }
@@ -227,7 +227,7 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
       $field_validation_rule_id = $this->entity->addFieldValidationRule($field_validation_rule);
       $this->entity->save();
       if (!empty($tab_id)) {
-        drupal_set_message($this->t('The rule was successfully added.'));
+	      $this->messenger()->addMessage($this->t('The rule was successfully added.'));
       }
     }
   }
@@ -250,7 +250,7 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
    */
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
-    drupal_set_message($this->t('Changes to the field validation rule set have been saved.'));
+	  $this->messenger()->addMessage($this->t('Changes to the field validation rule set have been saved.'));
   }
 
   /**

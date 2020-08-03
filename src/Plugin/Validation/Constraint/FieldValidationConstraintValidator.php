@@ -18,7 +18,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
   public function validate($items, Constraint $constraint) {
     $ruleset_name = $constraint->ruleset_name;
 	$rule_uuid = $constraint->rule_uuid;
-	$ruleset = \Drupal::entityManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
+	$ruleset = \Drupal::entityTypeManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
 	if(empty($ruleset)){
 	  return;
 	}
@@ -31,11 +31,11 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
 	  if($rule->getFieldName() == $field_name){
 	    $rules_available[] = $rule;
 	  }
-	
+
 	}
 	if(empty($rules_available)){
 	  return;
-	}	
+	}
 	//drupal_set_message($ruleset_name);
 	//drupal_set_message($rule_uuid);
 	//drupal_set_message('count:' . count($rules_available));
@@ -56,7 +56,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
       $plugin_validator = $validator_manager->createInstance($rule->getPluginId(), $config);
       $plugin_validator->validate($params);
 	  }
-	   
+
 	}
 
   }

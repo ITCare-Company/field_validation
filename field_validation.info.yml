@@ -3,6 +3,7 @@ type: module
 description: 'Provides customizable field validation rules.'
 package: Fields
 core: 8.x
+core_version_requirement: ^8 || ^9
 configure: entity.field_validation_rule_set.collection
 dependencies:
   - drupal:field

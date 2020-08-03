@@ -29,10 +29,10 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
       '#required' => TRUE,
     );
 	*/
-	$entity_types = \Drupal::entityManager()->getDefinitions();
+	$entity_types = \Drupal::entityTypeManager()->getDefinitions();
 	$entity_type_options =array();
 	foreach($entity_types as $key => $entitytype){
-	  
+
 	  if($entitytype instanceof \Drupal\Core\Entity\ContentEntityTypeInterface){
 	    $entity_type_options[$key] = $entitytype->getLabel();
 	  }
@@ -50,7 +50,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
       '#ajax' => array(
         'callback' => '::updateBundle',
         'wrapper' => 'edit-bundle-wrapper',
-      ),	  
+      ),
     );
 	$default_entity_type = $form_state->getValue('entity_type',$entity_type);
 	$default_entity_type = 'node';
@@ -62,7 +62,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
       '#required' => TRUE,
       '#prefix' => '<div id="edit-bundle-wrapper">',
       '#suffix' => '</div>',
-      '#validated' => TRUE,	 	  
+      '#validated' => TRUE,
     );
     return parent::form($form, $form_state);
   }
@@ -74,7 +74,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
     $form['bundle']['#options'] = $this->findBundle($form_state->getValue('entity_type'));
     return $form['bundle'];
 
-  }  
+  }
   /**
    * Handles switching the bundle selector.
    */
@@ -87,7 +87,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
 	  return $bundle_options;
 	}else{
      //drupal_set_message($entity_type);
-	$bundles = \Drupal::entityManager()->getBundleInfo($entity_type);
+	$bundles = \Drupal::entityTypeManager()->getBundleInfo($entity_type);
 
 	  foreach($bundles as $key=>$bundle){
 	    //drupal_set_message(var_export($bundle, true));
@@ -95,7 +95,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
 	  }
     }
     return $bundle_options;
-  }  
+  }
   /**
    * {@inheritdoc}
    */
@@ -105,7 +105,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
 	$entity_type = $form_state->getValue('entity_type');
 	$bundle = $form_state->getValue('bundle');
 	$ruleset_name = $entity_type . '_' . $bundle;
-	$ruleset = \Drupal::entityManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
+	$ruleset = \Drupal::entityTypeManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
 	if(empty($ruleset)){
 	  $form_state->setValue('name', $entity_type . '_' . $bundle);
 	  $form_state->setValue('label', $entity_type . ' ' . $bundle . ' ' . 'validation');
@@ -113,13 +113,13 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
 	  $form_state->setErrorByName('bundle', $this->t('A field validation rule set already exists for this bundle'));
 	}
 
-  }  
+  }
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
-    drupal_set_message($this->t('Field validation rule set %name was created.', array('%name' => $this->entity->label())));
+	  $this->messenger()->addMessage($this->t('Field validation rule set %name was created.', ['%name' => $this->entity->label()]));
   }
 
   /**

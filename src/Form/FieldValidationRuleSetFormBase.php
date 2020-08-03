@@ -41,7 +41,7 @@ abstract class FieldValidationRuleSetFormBase extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('field_validation_rule_set')
+      $container->get('entity_type.manager')->getStorage('field_validation_rule_set')
     );
   }
 
@@ -70,7 +70,7 @@ abstract class FieldValidationRuleSetFormBase extends EntityForm {
       '#default_value' => $this->entity->getAttachedEntityType(),
       '#required' => TRUE,
     );
-	
+
     $form['bundle'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Bundle'),
@@ -86,7 +86,7 @@ abstract class FieldValidationRuleSetFormBase extends EntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
-    $form_state->setRedirectUrl($this->entity->urlInfo('edit-form'));
+    $form_state->setRedirectUrl($this->entity->toUrl('edit-form'));
   }
 
 }
