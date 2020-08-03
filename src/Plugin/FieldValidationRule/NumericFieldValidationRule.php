@@ -70,7 +70,7 @@ class NumericFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       '#title' => $this->t('Step'),
       '#description' => $this->t('The step scale factor. Must be positive.'),
       '#type' => 'textfield',
-      '#default_value' => $this->configuration['max'],
+      '#default_value' => $this->configuration['step'],
     );	
     return $form;
   }
@@ -85,7 +85,7 @@ class NumericFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 	$this->configuration['max'] = $form_state->getValue('max');
 	$this->configuration['step'] = $form_state->getValue('step');
   }
-  
+
   public function validate($params) {
     $value = isset($params['value']) ? $params['value'] : '';
 	$rule = isset($params['rule']) ? $params['rule'] : null;
