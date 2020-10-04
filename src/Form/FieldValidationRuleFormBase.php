@@ -86,7 +86,8 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $field_options = array(
       '' => $this->t('- Select -'),
     );
-	foreach (\Drupal::entityTypeManager()->getFieldDefinitions($entity_type_id, $bundle) as $fieldname => $field_definition) {
+	$fieldDefinitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type_id, $bundle);
+	foreach ($fieldDefinitions as $fieldname => $field_definition) {
       if (!empty($field_definition->getTargetBundle())) {
 		$field_options[$fieldname] = $field_definition->getLabel();
 

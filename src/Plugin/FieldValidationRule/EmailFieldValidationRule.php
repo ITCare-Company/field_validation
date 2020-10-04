@@ -73,7 +73,7 @@ class EmailFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 	}
     $pattern = isset($settings['setting']) ? $settings['setting'] : '';
 	//$settings = $this->rule->settings;
-    if ($value != '' && (!Drupal::service('email.validator')->isValid($value))) {
+    if ($value != '' && (!\Drupal::service('email.validator')->isValid($value))) {
 		$context->addViolation($rule->getErrorMessage());
     }
 

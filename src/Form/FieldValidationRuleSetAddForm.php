@@ -87,7 +87,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
 	  return $bundle_options;
 	}else{
      //drupal_set_message($entity_type);
-	$bundles = \Drupal::entityTypeManager()->getBundleInfo($entity_type);
+      $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type);
 
 	  foreach($bundles as $key=>$bundle){
 	    //drupal_set_message(var_export($bundle, true));
