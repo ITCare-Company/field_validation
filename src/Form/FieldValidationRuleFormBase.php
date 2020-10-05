@@ -139,6 +139,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#title' => $this->t('Error message'),
       '#default_value' => $this->fieldValidationRule->getErrorMessage(),
       '#required' => TRUE,
+      '#maxlength' => 255,	  
     ];
     $form['data']['#tree'] = TRUE;
 
