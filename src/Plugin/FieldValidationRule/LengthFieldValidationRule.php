@@ -85,7 +85,7 @@ class LengthFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 	//$settings = $this->rule->settings;
     if ($value != '') {
       $flag = TRUE;
-      $length = strlen($value);
+      $length = mb_strlen($value, 'UTF-8');
       if (isset($settings['min']) && $settings['min'] != '') {
         //$min = token_replace($settings['min'], array($this->get_token_type() => $this->entity));
 		$min = $settings['min'];
