@@ -86,6 +86,12 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $field_options = array(
       '' => $this->t('- Select -'),
     );
+
+	$baseFieldDefinitions = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions($entity_type_id);
+    foreach ($baseFieldDefinitions as $base_field_name => $base_field_definition) {
+      $field_options[$base_field_name] = $base_field_definition->getLabel();
+    }
+
 	$fieldDefinitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type_id, $bundle);
 	foreach ($fieldDefinitions as $fieldname => $field_definition) {
       if (!empty($field_definition->getTargetBundle())) {
@@ -194,8 +200,15 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	  return $column_options;
 	}
 	$entity_type_id = $this->fieldValidationRuleSet->getAttachedEntityType();
-	$field_info = \Drupal\field\Entity\FieldStorageConfig::loadByName($entity_type_id, $field_name);
-	$schema = $field_info->getSchema();
+	$baseFieldDefinitions = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions($entity_type_id);
+    $schema = [];
+	if(isset($baseFieldDefinitions[$field_name])){
+		$field_info = $baseFieldDefinitions[$field_name];
+		$schema = $field_info->getSchema();		
+	}else{
+		$field_info = \Drupal\field\Entity\FieldStorageConfig::loadByName($entity_type_id, $field_name);
+		$schema = $field_info->getSchema();
+	}
 	// \Drupal::logger('field_validation')->notice('1234:' . var_export($schema, true));
 	if(!empty($schema['columns'])){
 	  $columns = $schema['columns'];
