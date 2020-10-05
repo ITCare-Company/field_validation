@@ -15,7 +15,10 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
   public function form(array $form, FormStateInterface $form_state, $entity_type = '') {
 
 	$entity_types = \Drupal::entityTypeManager()->getDefinitions();
-	$entity_type_options = [];
+	$entity_type_options = [
+	  '' => $this->t('- Select -'),
+	];
+
 	foreach($entity_types as $key => $entitytype){
 
 	  if($entitytype instanceof \Drupal\Core\Entity\ContentEntityTypeInterface){
@@ -38,7 +41,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
       ],
     ];
 	$default_entity_type = $form_state->getValue('entity_type',$entity_type);
-	$default_entity_type = 'node';
+	//$default_entity_type = 'node';
     $form['bundle'] = [
       '#type' => 'select',
       '#title' => $this->t('Bundle'),
