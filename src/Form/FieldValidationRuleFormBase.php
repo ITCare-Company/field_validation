@@ -65,21 +65,21 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     }
 
     //$form['#attached']['library'][] = 'field_validation/admin';
-    $form['uuid'] = array(
+    $form['uuid'] = [
       '#type' => 'hidden',
       '#value' => $this->fieldValidationRule->getUuid(),
-    );
-    $form['id'] = array(
+    ];
+    $form['id'] = [
       '#type' => 'hidden',
       '#value' => $this->fieldValidationRule->getPluginId(),
-    );
+    ];
 
-    $form['title'] = array(
+    $form['title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Field Validation Rule title'),
       '#default_value' => $this->fieldValidationRule->getTitle(),
       '#required' => TRUE,
-    );
+    ];
 	$entity_type_id = $this->fieldValidationRuleSet->getAttachedEntityType();
 	$bundle = $this->fieldValidationRuleSet->getAttachedBundle();
 	//$field_options = array();
@@ -108,22 +108,22 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	  $default_field_name = $field_name;
 	}
 
-    $form['field_name'] = array(
+    $form['field_name'] = [
       '#type' => 'select',
       '#title' => $this->t('Field name'),
 	  '#options' => $field_options,
       '#default_value' => $default_field_name,
       '#required' => TRUE,
-      '#ajax' => array(
+      '#ajax' => [
         'callback' => '::updateColumn',
         'wrapper' => 'edit-field-name-wrapper',
-      ),
-    );
+      ],
+    ];
 	//$default_field_name = $form_state->getValue('field_name', $field_name);
 	$default_column = $this->fieldValidationRule->getColumn();
 	$default_column = $form_state->getValue('column', $default_column);
 	//if()
-    $form['column'] = array(
+    $form['column'] = [
       '#type' => 'select',
       '#title' => $this->t('Column of field'),
 	  '#options' => $this->findColumn($default_field_name),
@@ -132,35 +132,35 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#prefix' => '<div id="edit-field-name-wrapper">',
       '#suffix' => '</div>',
       '#validated' => TRUE,
-    );
-    $form['data'] = $this->fieldValidationRule->buildConfigurationForm(array(), $form_state);
-    $form['error_message'] = array(
+    ];
+    $form['data'] = $this->fieldValidationRule->buildConfigurationForm([], $form_state);
+    $form['error_message'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Error message'),
       '#default_value' => $this->fieldValidationRule->getErrorMessage(),
       '#required' => TRUE,
-    );
+    ];
     $form['data']['#tree'] = TRUE;
 
 	//drupal_set_message('term_id:' . var_export($form['data']));
 
     // Check the URL for a weight, then the fieldValidationRule, otherwise use default.
-    $form['weight'] = array(
+    $form['weight'] = [
       '#type' => 'hidden',
       '#value' => $request->query->has('weight') ? (int) $request->query->get('weight') : $this->fieldValidationRule->getWeight(),
-    );
+    ];
 
-    $form['actions'] = array('#type' => 'actions');
-    $form['actions']['submit'] = array(
+    $form['actions'] = ['#type' => 'actions'];
+    $form['actions']['submit'] = [
       '#type' => 'submit',
       '#button_type' => 'primary',
-    );
-    $form['actions']['cancel'] = array(
+    ];
+    $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => $this->t('Cancel'),
       '#url' => $this->fieldValidationRuleSet->toUrl('edit-form'),
       '#attributes' => ['class' => ['button']],
-    );
+    ];
     return $form;
   }
 
@@ -186,9 +186,9 @@ abstract class FieldValidationRuleFormBase extends FormBase {
    */
   protected function findColumn($field_name) {
     //\Drupal::logger('field_validation')->notice('1234:' . $field_name);
-    $column_options = array(
+    $column_options = [
       '' => $this->t('- Select -'),
-    );
+    ];
 	if(empty($field_name)){
 	  return $column_options;
 	}
@@ -213,7 +213,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     // pass that through for validation.
 	$data = $form_state->getValue('data');
 	if(empty($data)){
-	  $data = array();
+	  $data = [];
 	}
       $field_validation_rule_data = (new FormState())->setValues($data);
       $this->fieldValidationRule->validateConfigurationForm($form, $field_validation_rule_data);

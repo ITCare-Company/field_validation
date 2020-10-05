@@ -13,24 +13,9 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state, $entity_type = '') {
-/*
-    $form['label'] = array(
-      '#type' => 'textfield',
-      '#title' => $this->t('Field validation rule set name'),
-      '#default_value' => $this->entity->label(),
-      '#required' => TRUE,
-    );
-    $form['name'] = array(
-      '#type' => 'machine_name',
-      '#machine_name' => array(
-        'exists' => array($this->entityStorage, 'load'),
-      ),
-      '#default_value' => $this->entity->id(),
-      '#required' => TRUE,
-    );
-	*/
+
 	$entity_types = \Drupal::entityTypeManager()->getDefinitions();
-	$entity_type_options =array();
+	$entity_type_options = [];
 	foreach($entity_types as $key => $entitytype){
 
 	  if($entitytype instanceof \Drupal\Core\Entity\ContentEntityTypeInterface){
@@ -41,20 +26,20 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
 		//drupal_set_message(var_export($entity_type, true));
 	  }
 	}
-    $form['entity_type'] = array(
+    $form['entity_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Entity Type'),
 	  '#options' => $entity_type_options,
       '#default_value' => $entity_type,
       '#required' => TRUE,
-      '#ajax' => array(
+      '#ajax' => [
         'callback' => '::updateBundle',
         'wrapper' => 'edit-bundle-wrapper',
-      ),
-    );
+      ],
+    ];
 	$default_entity_type = $form_state->getValue('entity_type',$entity_type);
 	$default_entity_type = 'node';
-    $form['bundle'] = array(
+    $form['bundle'] = [
       '#type' => 'select',
       '#title' => $this->t('Bundle'),
       //'#default_value' => $form_state->getValue('bundle'),
@@ -63,7 +48,7 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
       '#prefix' => '<div id="edit-bundle-wrapper">',
       '#suffix' => '</div>',
       '#validated' => TRUE,
-    );
+    ];
     return parent::form($form, $form_state);
   }
   /**
@@ -80,9 +65,9 @@ class FieldValidationRuleSetAddForm extends FieldValidationRuleSetFormBase {
    */
   protected function findBundle($entity_type) {
     //\Drupal::logger('field_validation')->notice('1234:' . $field_name);
-    $bundle_options = array(
+    $bundle_options = [
       '' => $this->t('- Select -'),
-    );
+    ];
 	if(empty($entity_type)){
 	  return $bundle_options;
 	}else{

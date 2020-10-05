@@ -29,10 +29,10 @@ class FieldValidationConstraint extends Constraint {
       }
 
         if (null !== $options && !is_array($options)) {
-            $options = array(
+            $options = [
                 'ruleset_name' => $options,
                 'rule_uuid' => $options,
-            );
+            ];
         }
 
         parent::__construct($options);

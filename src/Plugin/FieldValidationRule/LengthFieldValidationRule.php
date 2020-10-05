@@ -30,10 +30,6 @@ class LengthFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function getSummary() {
-    //$summary = array(
-    //  '#theme' => 'field_validation_rule_summary',
-    //  '#data' => $this->configuration,
-    //);
     $summary = parent::getSummary();
 
     return $summary;
@@ -43,28 +39,28 @@ class LengthFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return array(
+    return [
       'min' => NULL,
 	  'max' => NULL,
-    );
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form['min'] = array(
+    $form['min'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Min'),
       '#default_value' => $this->configuration['min'],
       '#required' => TRUE,
-    );
-    $form['max'] = array(
+    ];
+    $form['max'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Max'),
       '#default_value' => $this->configuration['max'],
       '#required' => TRUE,
-    );	
+    ];	
     return $form;
   }
 

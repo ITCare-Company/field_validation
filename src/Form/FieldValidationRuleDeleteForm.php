@@ -29,7 +29,7 @@ class FieldValidationRuleDeleteForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('Are you sure you want to delete the @rule rule from the %ruleset fieldValidationRuleSet?', array('%ruleset' => $this->fieldValidationRuleSet->label(), '@rule' => $this->fieldValidationRule->label()));
+    return $this->t('Are you sure you want to delete the @rule rule from the %ruleset fieldValidationRuleSet?', ['%ruleset' => $this->fieldValidationRuleSet->label(), '@rule' => $this->fieldValidationRule->label()]);
   }
 
   /**

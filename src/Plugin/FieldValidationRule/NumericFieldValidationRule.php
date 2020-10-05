@@ -30,10 +30,6 @@ class NumericFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function getSummary() {
-    //$summary = array(
-    //  '#theme' => 'field_validation_rule_summary',
-    //  '#data' => $this->configuration,
-    //);
     $summary = parent::getSummary();
 
     return $summary;
@@ -43,35 +39,35 @@ class NumericFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return array(
+    return [
       'min' => NULL,
 	  'max' => NULL,
 	  'step' => NULL,
-    );
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form['min'] = array(
+    $form['min'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Minimum value'),
       '#default_value' => $this->configuration['min'],
       '#required' => TRUE,
-    );
-    $form['max'] = array(
+    ];
+    $form['max'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Maximum value'),
       '#default_value' => $this->configuration['max'],
       '#required' => TRUE,
-    );
-    $form['step'] = array(
+    ];
+    $form['step'] = [
       '#title' => $this->t('Step'),
       '#description' => $this->t('The step scale factor. Must be positive.'),
       '#type' => 'textfield',
       '#default_value' => $this->configuration['step'],
-    );	
+    ];	
     return $form;
   }
 

@@ -30,10 +30,6 @@ class MustBeEmptyFieldValidationRule extends ConfigurableFieldValidationRuleBase
    * {@inheritdoc}
    */
   public function getSummary() {
-    //$summary = array(
-    //  '#theme' => 'field_validation_rule_summary',
-    //  '#data' => $this->configuration,
-    //);
     $summary = parent::getSummary();
 
     return $summary;
@@ -43,8 +39,7 @@ class MustBeEmptyFieldValidationRule extends ConfigurableFieldValidationRuleBase
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return array(
-    );
+    return [];
   }
 
   /**

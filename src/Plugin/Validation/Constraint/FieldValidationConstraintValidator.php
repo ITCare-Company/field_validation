@@ -36,10 +36,8 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
 	if(empty($rules_available)){
 	  return;
 	}
-	//drupal_set_message($ruleset_name);
-	//drupal_set_message($rule_uuid);
-	//drupal_set_message('count:' . count($rules_available));
-	$params = array();
+
+	$params = [];
 	$params['items'] = $items;
 	//$params['rule'] = $rule;
 	$params['context'] = $this->context;

@@ -30,10 +30,6 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function getSummary() {
-    //$summary = array(
-    //  '#theme' => 'field_validation_rule_summary',
-    //  '#data' => $this->configuration,
-    //);
     $summary = parent::getSummary();
 
     return $summary;
@@ -43,25 +39,25 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    return array(
+    return [
       'scope' => NULL,
-    );
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form['scope'] = array(
+    $form['scope'] = [
       '#title' => $this->t('Scope of unique'),
       '#description' => $this->t('Specify the scope of unique values, support: entity, bundle.'),
       '#type' => 'select',
-      '#options' => array(
+      '#options' => [
         'entity' => $this->t('Entity'),
         'bundle' => $this->t('Bundle'),
-      ),
+      ],
       '#default_value' => $this->configuration['scope'],
-    );
+    ];
 
     return $form;
   }
@@ -110,12 +106,12 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 	    $bundle = $entity->bundle();
         $bundle_key = $entity->getEntityType()->getKey('bundle');
         /*		
-	    $bundle_keys = array(
+	    $bundle_keys = [
 		  "node" => "type",
 		  "taxonomy_term" => "vid",
 		  "comment" => "comment_type",
 		  "block_content" => "type",  
-		);
+		];
 		*/
 		if(!empty($bundle_key)){
           $query->condition($bundle_key, $bundle);
