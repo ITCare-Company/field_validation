@@ -228,14 +228,14 @@ abstract class FieldValidationRuleFormBase extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $form_state->cleanValues();
+    drupal_flush_all_caches();
 
     // The fieldValidationRule configuration is stored in the 'data' key in the form,
     // pass that through for submission.
     $field_validation_rule_data = (new FormState())->setValues($form_state->getValue('data'));
     $this->fieldValidationRule->submitConfigurationForm($form, $field_validation_rule_data);
+
     // Update the original form values.
-	//drupal_set_message('1234:' . $form_state->getValue('field_name'));
-	//drupal_set_message('1234:' . $form_state->getValue('column'));
     $form_state->setValue('data', $field_validation_rule_data->getValues());
     $this->fieldValidationRule->setTitle($form_state->getValue('title'));
     $this->fieldValidationRule->setWeight($form_state->getValue('weight'));
@@ -243,18 +243,12 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	$this->fieldValidationRule->setColumn($form_state->getValue('column'));
 	$this->fieldValidationRule->setErrorMessage($form_state->getValue('error_message'));
     if (!$this->fieldValidationRule->getUuid()) {
-	  //drupal_set_message('1234');
       $this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
-      //drupal_set_message(var_export($this->fieldValidationRule->getConfiguration(), true));
-	  //$test_rule = $this->fieldValidationRule;
-	  //drupal_set_message(var_export($test_rule, true));
 	}else{
-	  //drupal_set_message(var_export($this->fieldValidationRule, true));
 	  $this->fieldValidationRuleSet->deleteFieldValidationRule($this->fieldValidationRule);
 	  $this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
     }
 	$this->fieldValidationRuleSet->save();
-    //drupal_set_message(var_export($this->fieldValidationRuleSet, true));
 	  $this->messenger()->addMessage($this->t('The rule was successfully applied.'));
 	  $form_state->setRedirectUrl($this->fieldValidationRuleSet->toUrl('edit-form'));
   }
