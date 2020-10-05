@@ -109,6 +109,8 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       $entity_type_id = $entity->getEntityTypeId();	
 	  
 	  $query = \Drupal::entityQuery($entity_type_id);
+	  $query->addTag('field_validation');
+	  $query->accessCheck(FALSE);
 
       if ($scope == 'bundle') {
 
