@@ -22,10 +22,18 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
 	if(empty($ruleset)){
 	  return;
 	}
+	//for base field validation, we limit it to attached bundle.
+    $entity = $items->getEntity();
+    $bundle = $entity->bundle();
+    if($bundle != $ruleset->getAttachedBundle()){
+      return;	
+    }
+    	
 	//$rule = $ruleset->getFieldValidationRule($rule_uuid);
 	$rules = $ruleset->getFieldValidationRules();
 	$rules_available = [];
 	$field_name = $items->getFieldDefinition()->getName();
+	
 	//drupal_set_message($field_name);
 	foreach($rules as $rule){
 	  if($rule->getFieldName() == $field_name){
