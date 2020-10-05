@@ -41,6 +41,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   public function defaultConfiguration() {
     return [
       'scope' => NULL,
+      'per_user' => FALSE,
     ];
   }
 
@@ -59,6 +60,12 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       '#default_value' => $this->configuration['scope'],
     ];
 
+    $form['per_user'] = [
+      '#title' => $this->t('Per user'),
+      '#type' => 'checkbox',
+      '#default_value' => $this->configuration['per_user'] ?: FALSE,
+    ];
+
     return $form;
   }
 
@@ -69,6 +76,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     parent::submitConfigurationForm($form, $form_state);
 
     $this->configuration['scope'] = $form_state->getValue('scope');
+    $this->configuration['per_user'] = $form_state->getValue('per_user');
   }
   
   public function validate($params) {
@@ -86,6 +94,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 	}
     $flag = TRUE;
     $scope = isset($settings['scope']) ? $settings['scope'] : '';
+    $per_user = $settings['per_user'] ?? FALSE;
     $count = 0;
     foreach ($items as $delta1 => $item1) {
       if ($delta != $delta1) {
@@ -118,7 +127,11 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 		}
 
       }
-	  
+
+      if ($per_user) {
+        $query->condition('uid', \Drupal::currentUser()->id());
+      }
+
 	  $id_key = $entity->getEntityType()->getKey('id');
 	  $query->condition($id_key, (int) $items->getEntity()->id(), '<>');
 	  
