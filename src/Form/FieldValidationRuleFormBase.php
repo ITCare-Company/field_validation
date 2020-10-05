@@ -113,7 +113,9 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	if(!empty($field_name)){
 	  $default_field_name = $field_name;
 	}
-
+    $user_input = $form_state->getUserInput();
+    $default_field_name =  isset($user_input['field_name']) ? $user_input['field_name'] : $default_field_name;
+	
     $form['field_name'] = [
       '#type' => 'select',
       '#title' => $this->t('Field name'),
@@ -121,18 +123,25 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#default_value' => $default_field_name,
       '#required' => TRUE,
       '#ajax' => [
-        'callback' => '::updateColumn',
+        'callback' => [$this, 'updateColumn'],
         'wrapper' => 'edit-field-name-wrapper',
+		'event' => 'change',
       ],
     ];
 	//$default_field_name = $form_state->getValue('field_name', $field_name);
 	$default_column = $this->fieldValidationRule->getColumn();
-	$default_column = $form_state->getValue('column', $default_column);
+    //$user_input = $form_state->getUserInput();
+    $default_column =  isset($user_input['column']) ? $user_input['column'] : $default_column;
+    $column_options = $this->findColumn($default_field_name);
+	if(!in_array($default_column, $column_options)){
+	  $default_column = "";	
+	}
+	//$default_column = $form_state->getValue('column', $default_column);
 	//if()
     $form['column'] = [
       '#type' => 'select',
       '#title' => $this->t('Column of field'),
-	  '#options' => $this->findColumn($default_field_name),
+	  '#options' => $column_options,
       '#default_value' => $default_column,
       '#required' => TRUE,
       '#prefix' => '<div id="edit-field-name-wrapper">',
@@ -175,8 +184,8 @@ abstract class FieldValidationRuleFormBase extends FormBase {
    * Handles switching the configuration type selector.
    */
   public function updateColumn($form, FormStateInterface $form_state) {
-    $form['column']['#default_value'] = '';
-    $form['column']['#options'] = $this->findColumn($form_state->getValue('field_name'));
+    //$form['column']['#default_value'] = '';
+    //$form['column']['#options'] = $this->findColumn($form_state->getValue('field_name'));
 
 	//\Drupal::logger('field_validation')->notice('123:' . $form_state->getValue('field_name'));
 	// \Drupal::logger('field_validation')->notice('123:' . var_export($form['column']['#options'], true));
@@ -241,7 +250,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $form_state->cleanValues();
-    drupal_flush_all_caches();
+    //drupal_flush_all_caches();
 
     // The fieldValidationRule configuration is stored in the 'data' key in the form,
     // pass that through for submission.
