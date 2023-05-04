@@ -5,6 +5,7 @@ namespace Drupal\field_validation\Plugin\FieldValidationRule;
 
 
 use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
+use Drupal\Core\Field\FieldItemInterface
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\ConfigurableFieldValidationRuleInterface;
@@ -129,10 +130,10 @@ class OneOfSeveralValidationRule extends ConfigurableFieldValidationRuleBase {
   private function getFieldColumnValue($items, $column = 'value'): array {
     $field_values = [];
     foreach ($items as $delta => $item) {
-      if ($item instanceof StringItem) {
+      if ($item instanceof FieldItemInterface) {
         $item = $item->getValue();
       }
-      if (isset($item[$column]) && $item[$column] != '') {
+      if (is_array($item) && isset($item[$column]) && $item[$column] != '') {
         $field_values[] = $item[$column];
       }
     }
