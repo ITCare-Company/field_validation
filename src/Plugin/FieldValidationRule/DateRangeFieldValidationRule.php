@@ -101,7 +101,7 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       $settings = $rule->configuration;
     }
     //$settings = $this->rule->settings;
-    if ($value !== '' && !is_null($value)) {
+    if ($value !== '' && !is_null($value) && !is_array($value)) {
       $flag = FALSE;
       //$settings =  $this->rule->settings;
       $cycle = isset($settings['cycle']) ? $settings['cycle'] : '';
