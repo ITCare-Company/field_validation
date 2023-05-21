@@ -250,7 +250,11 @@ abstract class FieldValidationRuleFormBase extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $form_state->cleanValues();
-    \Drupal::service('cache.render')->invalidateAll();
+	//drupal_flush_all_caches();
+    // Clear all plugin caches.
+    \Drupal::service('plugin.cache_clearer')->clearCachedDefinitions();
+
+    //\Drupal::service('cache.render')->invalidateAll();
 
     // The fieldValidationRule configuration is stored in the 'data' key in the form,
     // pass that through for submission.
