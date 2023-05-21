@@ -120,7 +120,10 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       }
 
       if ($per_user) {
-        $query->condition('uid', \Drupal::currentUser()->id());
+        $owner_key = $entity->getEntityType()->getKey('owner');
+        if(!empty($owner_key)){
+          $query->condition($owner_key, \Drupal::currentUser()->id());
+        }
       }
 
       $id_key = $entity->getEntityType()->getKey('id');
