@@ -20,7 +20,6 @@ class RegexFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   /**
    * {@inheritdoc}
    */
-   
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
 
     return TRUE;
@@ -67,20 +66,18 @@ class RegexFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $this->configuration['setting'] = $form_state->getValue('setting');
   }
-  
-  public function validate($params) {
-    $value = isset($params['value']) ? $params['value'] : '';
-	$rule = isset($params['rule']) ? $params['rule'] : null;
-	$context = isset($params['context']) ? $params['context'] : null;
-	$settings = array();
-	if(!empty($rule) && !empty($rule->configuration)){
-	  $settings = $rule->configuration;
-	}
-    $pattern = isset($settings['setting']) ? $settings['setting'] : '';
-	//$settings = $this->rule->settings;
-    if ($value != '' && (!preg_match($pattern, $value))) {
-		$context->addViolation($rule->getErrorMessage());
-    }	
 
+  public function validate($params) {
+    $value = $params['value'] ?? '';
+    $rule = $params['rule'] ?? null;
+    $context =  $params['context'] ?? null;
+    $settings = [];
+    if(!empty($rule) && !empty($rule->configuration)){
+      $settings = $rule->configuration;
+    }
+    $pattern = isset($settings['setting']) ? $settings['setting'] : '';
+    if ($value != '' && (!preg_match($pattern, $value))) {
+      $context->addViolation($rule->getErrorMessage());
+    }
   }
 }

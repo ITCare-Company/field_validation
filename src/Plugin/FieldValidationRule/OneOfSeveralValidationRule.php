@@ -137,8 +137,6 @@ class OneOfSeveralValidationRule extends ConfigurableFieldValidationRuleBase {
         $field_values[] = $item[$column];
       }
     }
-
     return $field_values;
   }
-
 }

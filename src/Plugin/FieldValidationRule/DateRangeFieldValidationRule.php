@@ -93,17 +93,16 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   }
 
   public function validate($params) {
-    $value = isset($params['value']) ? $params['value'] : '';
-    $rule = isset($params['rule']) ? $params['rule'] : NULL;
-    $context = isset($params['context']) ? $params['context'] : NULL;
+    $value = $params['value'] ?? '';
+    $rule = $params['rule'] ?? NULL;
+    $context = $params['context'] ?? NULL;
     $settings = [];
     if (!empty($rule) && !empty($rule->configuration)) {
       $settings = $rule->configuration;
     }
-    //$settings = $this->rule->settings;
+
     if ($value !== '' && !is_null($value) && !is_array($value)) {
       $flag = FALSE;
-      //$settings =  $this->rule->settings;
       $cycle = isset($settings['cycle']) ? $settings['cycle'] : '';
       // support date, datetime
       if (!is_numeric($value)) {
@@ -114,12 +113,10 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       $str_place = 0;
       if ($cycle == 'global') {
         if (!empty($settings['min'])) {
-          //$settings['min'] = $settings['min'];
           $settings['min'] = strtotime($settings['min']);
           $settings['min'] = date("Y-m-d H:i:s", $settings['min']);
         }
         if (!empty($settings['max'])) {
-          //$settings['max'] = strtr($settings['max'], $tokens);
           $settings['max'] = strtotime($settings['max']);
           $settings['max'] = date("Y-m-d H:i:s", $settings['max']);
         }
@@ -137,17 +134,14 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         $week_day = date('w', strtotime($date_str));
         $date_str = substr($date_str, $str_place);
         $date_str = $week_day . $date_str;
-
       }
       elseif ($cycle == 'day') {
         $str_place = 11;
         $date_str = substr($date_str, $str_place);
-
       }
       elseif ($cycle == 'hour') {
         $str_place = 14;
         $date_str = substr($date_str, $str_place);
-
       }
       elseif ($cycle == 'minute') {
         $str_place = 17;
@@ -166,7 +160,5 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       }
 
     }
-    //return true;
   }
-
 }

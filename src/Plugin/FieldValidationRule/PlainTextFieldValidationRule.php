@@ -20,7 +20,6 @@ class PlainTextFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   /**
    * {@inheritdoc}
    */
-   
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
 
     return TRUE;
@@ -57,15 +56,14 @@ class PlainTextFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     parent::submitConfigurationForm($form, $form_state);
 
   }
-  
+
   public function validate($params) {
-    $value = isset($params['value']) ? $params['value'] : '';
-	$rule = isset($params['rule']) ? $params['rule'] : null;
-	$context = isset($params['context']) ? $params['context'] : null;
+    $value = $params['value'] ?? '';
+    $rule = $params['rule'] ?? null;
+    $context = $params['context'] ?? null;
 
     if ($value != '' && (strcmp($value, strip_tags($value)))) {
-		$context->addViolation($rule->getErrorMessage());
-    }	
-
+      $context->addViolation($rule->getErrorMessage());
+    }
   }
 }
