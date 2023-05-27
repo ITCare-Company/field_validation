@@ -5,7 +5,7 @@ namespace Drupal\field_validation\Plugin\FieldValidationRule;
 
 
 use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
-use Drupal\Core\Field\FieldItemInterface
+use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\ConfigurableFieldValidationRuleInterface;
