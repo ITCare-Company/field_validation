@@ -24,8 +24,15 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
     //for base field validation, we limit it to attached bundle.
     $entity = $items->getEntity();
     $bundle = $entity->bundle();
-    if($bundle != $ruleset->getAttachedBundle()){
-      return;	
+
+    if ($bundle != $ruleset->getAttachedBundle()) {
+      $ruleset_name = $entity->getEntityType()->id() . '_' . $bundle;
+      $ruleset = \Drupal::entityTypeManager()
+        ->getStorage('field_validation_rule_set')
+        ->load($ruleset_name);
+      if (empty($ruleset)) {
+        return;
+      }
     }
 
     $rules = $ruleset->getFieldValidationRules();
