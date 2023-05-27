@@ -41,6 +41,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     return [
       'scope' => NULL,
       'per_user' => FALSE,
+      'published' => FALSE,
     ];
   }
 
@@ -59,12 +60,25 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       '#default_value' => $this->configuration['scope'],
     ];
 
-    $form['per_user'] = [
-      '#title' => $this->t('Per user'),
-      '#type' => 'checkbox',
-      '#default_value' => $this->configuration['per_user'] ?: FALSE,
-    ];
+    $rule_set = $form_state->getBuildInfo()['args'][0];
+    $entity_type_id = $rule_set->getAttachedEntityType();
+	$entity_type = \Drupal::entityTypeManager()->getDefinition($entity_type_id, false);
 
+    if ($entity_type->getKey('published')) {
+      $form['published'] = [
+        '#title' => $this->t('Only for published entities'),
+        '#type' => 'checkbox',
+        '#default_value' => $this->configuration['published'] ?: FALSE,
+      ];
+    }
+
+    if ($entity_type->getKey('owner')) {
+      $form['per_user'] = [
+        '#title' => $this->t('Per user'),
+        '#type' => 'checkbox',
+        '#default_value' => $this->configuration['per_user'] ?: FALSE,
+      ];
+    }
     return $form;
   }
 
@@ -75,7 +89,8 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     parent::submitConfigurationForm($form, $form_state);
 
     $this->configuration['scope'] = $form_state->getValue('scope');
-    $this->configuration['per_user'] = $form_state->getValue('per_user');
+    $this->configuration['published'] = $form_state->getValue('published') ?: FALSE;
+    $this->configuration['per_user'] = $form_state->getValue('per_user') ?: FALSE;	
   }
 
   public function validate($params) {
@@ -93,7 +108,8 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     }
     $flag = TRUE;
     $scope = isset($settings['scope']) ? $settings['scope'] : '';
-    $per_user = $settings['per_user'] ?? FALSE;
+    $published = $settings['published'] ?? FALSE;
+    $per_user = $settings['per_user'] ?? FALSE;	
     $count = 0;
     foreach ($items as $delta1 => $item1) {
       if ($delta != $delta1) {
@@ -117,6 +133,13 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 		if(!empty($bundle_key)){
           $query->condition($bundle_key, $bundle);
 		}
+      }
+
+      if ($published) {
+        $published_key = $entity->getEntityType()->getKey('published');
+        if(!empty($published_key)){
+          $query->condition($published_key, 1);
+        }
       }
 
       if ($per_user) {
