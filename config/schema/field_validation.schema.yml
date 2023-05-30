@@ -103,6 +103,12 @@ field_validation.rule.length_field_validation_rule:
     max:
       type: string
       label: 'Maximum value'
+    strip_tags:
+      type: boolean
+      label: 'Strip tags'
+    trim:
+      type: boolean
+      label: 'Trim'
 
 field_validation.rule.must_be_empty_field_validation_rule:
   type: mapping
@@ -149,6 +155,12 @@ field_validation.rule.unique_field_validation_rule:
     scope:
       type: string
       label: 'Scope of unique'
+    published:
+      type: boolean
+      label: 'Published entities'
+    per_user:
+      type: boolean
+      label: 'Per user'
 
 field_validation.rule.words_field_validation_rule:
   type: mapping
