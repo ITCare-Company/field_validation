@@ -7,7 +7,7 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * PhoneFieldValidationRule.
+ * Phone Field Validation Rule.
  *
  * @FieldValidationRule(
  *   id = "phone_field_validation_rule",
@@ -48,7 +48,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $countries = $this->phone_countries();
-    $country_options = array();
+    $country_options = [];
     foreach ($countries as $country_code => $country) {
       $country_options[$country_code] = $country['name'] ?? '';
     }
@@ -70,27 +70,33 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $this->configuration['country'] = $form_state->getValue('country');
   }
-
+  
+  /**
+   * {@inheritdoc}
+   */
   public function validate($params) {
     $value = $params['value'] ?? '';
-    $rule = $params['rule'] ?? null;
-    $context = $params['context'] ?? null;
+    $rule = $params['rule'] ?? NULL;
+    $context = $params['context'] ?? NULL;
     $settings = [];
-    if(!empty($rule) && !empty($rule->configuration)){
+    if (!empty($rule) && !empty($rule->configuration)) {
       $settings = $rule->configuration;
     }
     if ($value !== '' && !is_null($value)) {
-      $country_code = isset($settings['country']) ? $settings['country'] : '';
+      $country_code = $settings['country'] ?? '';
       $country_regex = '';
-      $countries = $this->phone_countries();
-      $country_regex = isset($countries[$country_code]['regex']) ? $countries[$country_code]['regex'] : '';
+      $countries = $this->phoneCountries();
+      $country_regex = $countries[$country_code]['regex'] ?? '';
       if (!preg_match($country_regex, $value)) {
         $context->addViolation($rule->getErrorMessage());
       }
     }
   }
-
-  public function phone_countries() {
+  
+  /**
+   * Phone regex of countries.
+   */
+  public function phoneCountries() {
    $countries = [
       'fr' => [
         'name' => $this->t('France'),
@@ -132,7 +138,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         'name' => $this->t('Russia'),
         'regex' => "/^\D*[78]?\D*\d{3,5}\D*\d{1,3}\D*\d{2}\D*\d{2}\D*/x",
       ],
-      'es' =>[
+      'es' => [
         'name' => $this->t('Spain'),
         'regex' => '/^[0-9]{2,3}-? ?[0-9]{6,7}$/',
       ],
@@ -200,4 +206,5 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     return $countries;
   }
+
 }

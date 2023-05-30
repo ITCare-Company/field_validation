@@ -7,7 +7,7 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * PlainTextFieldValidationRule.
+ * Plain Text Field Validation Rule.
  *
  * @FieldValidationRule(
  *   id = "plain_text_field_validation_rule",
@@ -45,7 +45,6 @@ class PlainTextFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-
     return $form;
   }
 
@@ -57,13 +56,17 @@ class PlainTextFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validate($params) {
     $value = $params['value'] ?? '';
-    $rule = $params['rule'] ?? null;
-    $context = $params['context'] ?? null;
+    $rule = $params['rule'] ?? NULL;
+    $context = $params['context'] ?? NULL;
 
     if ($value != '' && (strcmp($value, strip_tags($value)))) {
       $context->addViolation($rule->getErrorMessage());
     }
   }
+
 }

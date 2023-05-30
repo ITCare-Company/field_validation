@@ -18,10 +18,11 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
   public function validate($items, Constraint $constraint) {
     $ruleset_name = $constraint->ruleset_name;
     $ruleset = \Drupal::entityTypeManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
-    if(empty($ruleset)){
+    if (empty($ruleset)) {
       return;
     }
-    //for base field validation, we limit it to attached bundle.
+
+    //For base field validation, we limit it to attached bundle.
     $entity = $items->getEntity();
     $bundle = $entity->bundle();
 
@@ -39,12 +40,12 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
     $rules_available = [];
     $field_name = $items->getFieldDefinition()->getName();
 
-    foreach($rules as $rule){
-      if($rule->getFieldName() == $field_name){
+    foreach ($rules as $rule) {
+      if ($rule->getFieldName() == $field_name) {
         $rules_available[] = $rule;
       }
     }
-    if(empty($rules_available)){
+    if (empty($rules_available)) {
       return;
     }
 
@@ -52,10 +53,10 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
     $params['items'] = $items;
     $params['context'] = $this->context;
     if ($items->count() !== 0) {
-      foreach($items as $delta => $item){
+      foreach ($items as $delta => $item) {
         $validator_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
         // You can hard code configuration or you load from settings.
-        foreach($rules_available as $rule) {
+        foreach ($rules_available as $rule) {
           $column = $rule->getColumn();
           $value = $item->{$column};
           $params['value'] = $value;
@@ -67,6 +68,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
           $plugin_validator->validate($params);
         }
       }
+
     }else {
       $validator_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
       // You can hard code configuration or you load from settings.
@@ -81,4 +83,5 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
       }
     }
   }
+
 }

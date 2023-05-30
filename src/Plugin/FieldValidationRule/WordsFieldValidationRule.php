@@ -7,7 +7,7 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * WordsFieldValidationRule.
+ * Words Field Validation Rule.
  *
  * @FieldValidationRule(
  *   id = "words_field_validation_rule",
@@ -79,15 +79,15 @@ class WordsFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   
   public function validate($params) {
     $value = $params['value'] ?? '';
-    $rule = $params['rule'] ?? null;
-    $context = $params['context'] ?? null;
+    $rule = $params['rule'] ?? NULL;
+    $context = $params['context'] ?? NULL;
     $settings = [];
-    if(!empty($rule) && !empty($rule->configuration)){
+    if (!empty($rule) && !empty($rule->configuration)) {
       $settings = $rule->configuration;
     }
     if ($value != '') {
       $flag = TRUE;
-      $length =count(explode(' ', trim(preg_replace('/\s+/', ' ', str_replace('&nbsp;', ' ', (strip_tags(str_replace('<', ' <', $value))))))));
+      $length = count(explode(' ', trim(preg_replace('/\s+/', ' ', str_replace('&nbsp;', ' ', (strip_tags(str_replace('<', ' <', $value))))))));
       if (isset($settings['min']) && $settings['min'] != '') {
         $min = $settings['min'];
         if ($length < $min) {
@@ -99,11 +99,12 @@ class WordsFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         if ($length > $max) {
           $flag = FALSE;
         }
-      }       
+      }
 
       if (!$flag) {
         $context->addViolation($rule->getErrorMessage());
       }
     }
   }
+
 }

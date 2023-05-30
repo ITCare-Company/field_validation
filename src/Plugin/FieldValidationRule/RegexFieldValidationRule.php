@@ -7,7 +7,7 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * RegexFieldValidationRule.
+ * Regex Field Validation Rule.
  *
  * @FieldValidationRule(
  *   id = "regex_field_validation_rule",
@@ -47,13 +47,13 @@ class RegexFieldValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form['setting'] = array(
+    $form['setting'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Pattern'),
       '#description' => $this->t('Specify the Perl-compatible regular expression pattern to validate the user input against.'),
       '#default_value' => $this->configuration['setting'],
       '#required' => TRUE,
-    );
+    ];
 
     return $form;
   }
@@ -67,17 +67,21 @@ class RegexFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $this->configuration['setting'] = $form_state->getValue('setting');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validate($params) {
     $value = $params['value'] ?? '';
-    $rule = $params['rule'] ?? null;
-    $context =  $params['context'] ?? null;
+    $rule = $params['rule'] ?? NULL;
+    $context = $params['context'] ?? NULL;
     $settings = [];
-    if(!empty($rule) && !empty($rule->configuration)){
+    if (!empty($rule) && !empty($rule->configuration)) {
       $settings = $rule->configuration;
     }
-    $pattern = isset($settings['setting']) ? $settings['setting'] : '';
+    $pattern = $settings['setting'] ?? '';
     if ($value != '' && (!preg_match($pattern, $value))) {
       $context->addViolation($rule->getErrorMessage());
     }
   }
+
 }

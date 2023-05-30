@@ -7,7 +7,7 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * UniqueFieldValidationRule.
+ * Unique Field Validation Rule.
  *
  * @FieldValidationRule(
  *   id = "unique_field_validation_rule",
@@ -62,7 +62,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $rule_set = $form_state->getBuildInfo()['args'][0];
     $entity_type_id = $rule_set->getAttachedEntityType();
-	$entity_type = \Drupal::entityTypeManager()->getDefinition($entity_type_id, false);
+    $entity_type = \Drupal::entityTypeManager()->getDefinition($entity_type_id, FALSE);
 
     if ($entity_type->getKey('published')) {
       $form['published'] = [
@@ -90,26 +90,28 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $this->configuration['scope'] = $form_state->getValue('scope');
     $this->configuration['published'] = $form_state->getValue('published') ?: FALSE;
-    $this->configuration['per_user'] = $form_state->getValue('per_user') ?: FALSE;	
+    $this->configuration['per_user'] = $form_state->getValue('per_user') ?: FALSE;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validate($params) {
     $value = $params['value'] ?? '';
-    $rule = $params['rule'] ?? null;
-    $context = $params['context'] ?? null;
+    $rule = $params['rule'] ?? NULL;
+    $context = $params['context'] ?? NULL;
     $items = $params['items'] ?? [];
     $delta = $params['delta'] ?? '';
     $column = $rule->getColumn();
 
-	
     $settings = [];
-    if(!empty($rule) && !empty($rule->configuration)){
+    if (!empty($rule) && !empty($rule->configuration)) {
       $settings = $rule->configuration;
     }
     $flag = TRUE;
-    $scope = isset($settings['scope']) ? $settings['scope'] : '';
+    $scope = $settings['scope'] ?? '';
     $published = $settings['published'] ?? FALSE;
-    $per_user = $settings['per_user'] ?? FALSE;	
+    $per_user = $settings['per_user'] ?? FALSE;
     $count = 0;
     foreach ($items as $delta1 => $item1) {
       if ($delta != $delta1) {
@@ -128,23 +130,23 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       $query->accessCheck(FALSE);
 
       if ($scope == 'bundle') {
-	    $bundle = $entity->bundle();
+        $bundle = $entity->bundle();
         $bundle_key = $entity->getEntityType()->getKey('bundle');
-		if(!empty($bundle_key)){
+        if (!empty($bundle_key)) {
           $query->condition($bundle_key, $bundle);
-		}
+        }
       }
 
       if ($published) {
         $published_key = $entity->getEntityType()->getKey('published');
-        if(!empty($published_key)){
+        if (!empty($published_key)) {
           $query->condition($published_key, 1);
         }
       }
 
       if ($per_user) {
         $owner_key = $entity->getEntityType()->getKey('owner');
-        if(!empty($owner_key)){
+        if (!empty($owner_key)) {
           $query->condition($owner_key, \Drupal::currentUser()->id());
         }
       }
@@ -154,7 +156,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
       $field_name = $items->getFieldDefinition()->getName();
 
-      if(!empty($column)){
+      if (!empty($column)) {
         $field_name = $field_name . '.' . $column;
       }
       $query->condition($field_name, $value);
@@ -171,7 +173,7 @@ class UniqueFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     if (!$flag) {
       $context->addViolation($rule->getErrorMessage());
-    }	
-
+    }
   }
+
 }
