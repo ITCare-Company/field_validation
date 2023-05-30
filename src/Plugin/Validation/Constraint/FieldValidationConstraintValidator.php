@@ -62,6 +62,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
           $params['delta'] = $delta;
           $config = [];
           $params['rule'] = $rule;
+          $params['ruleset'] = $ruleset;
           $plugin_validator = $validator_manager->createInstance($rule->getPluginId(), $config);
           $plugin_validator->validate($params);
         }

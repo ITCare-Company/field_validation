@@ -33,10 +33,6 @@ class OneOfSeveralValidationRule extends ConfigurableFieldValidationRuleBase {
    * {@inheritdoc}
    */
   public function getSummary() {
-    $summary = [
-      '#theme' => 'field_validation_rule_summary',
-      '#data' => $this->configuration,
-    ];
     $summary += parent::getSummary();
 
     return $summary;
