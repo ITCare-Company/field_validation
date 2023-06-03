@@ -10,6 +10,9 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleInterface;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Plugin\CachedDiscoveryClearerInterface;
 
 /**
  * Provides a base form for FieldValidationRule.
@@ -29,6 +32,43 @@ abstract class FieldValidationRuleFormBase extends FormBase {
    * @var \Drupal\field_validation\FieldValidationRuleInterface
    */
   protected $fieldValidationRule;
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * The plugin cache clearer.
+   *
+   * @var \Drupal\Core\Plugin\CachedDiscoveryClearerInterface
+   */
+  protected $pluginCacheClearer;
+
+  /**
+   * Constructs a new FieldValidationRuleForm.
+   *
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager.
+   * @param \Drupal\Core\Plugin\CachedDiscoveryClearerInterface $plugin_cache_clearer
+   *   The plugin cache clearer.
+   */
+  public function __construct(EntityFieldManagerInterface $entity_field_manager, CachedDiscoveryClearerInterface $plugin_cache_clearer) {
+    $this->entityFieldManager = $entity_field_manager;
+    $this->pluginCacheClearer = $plugin_cache_clearer;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_field.manager'),
+      $container->get('plugin.cache_clearer')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -87,12 +127,12 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '' => $this->t('- Select -'),
     );
 
-	$baseFieldDefinitions = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions($entity_type_id);
+    $baseFieldDefinitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     foreach ($baseFieldDefinitions as $base_field_name => $base_field_definition) {
       $field_options[$base_field_name] = $base_field_definition->getLabel();
     }
 
-	$fieldDefinitions = \Drupal::service('entity_field.manager')->getFieldDefinitions($entity_type_id, $bundle);
+	$fieldDefinitions = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
 	foreach ($fieldDefinitions as $fieldname => $field_definition) {
       if (!empty($field_definition->getTargetBundle())) {
         $field_options[$fieldname] = $field_definition->getLabel();
@@ -182,7 +222,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
 	  return $column_options;
 	}
 	$entity_type_id = $this->fieldValidationRuleSet->getAttachedEntityType();
-	$baseFieldDefinitions = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions($entity_type_id);
+	$baseFieldDefinitions = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
     $schema = [];
 	if(isset($baseFieldDefinitions[$field_name])){
       $field_info = $baseFieldDefinitions[$field_name];
@@ -224,7 +264,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $form_state->cleanValues();
     //drupal_flush_all_caches();
     // Clear all plugin caches.
-    \Drupal::service('plugin.cache_clearer')->clearCachedDefinitions();
+    $this->pluginCacheClearer->clearCachedDefinitions();
 
     // The fieldValidationRule configuration is stored in the 'data' key in the form,
     // pass that through for submission.
