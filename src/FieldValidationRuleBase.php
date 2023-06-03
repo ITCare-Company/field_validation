@@ -32,14 +32,14 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
    * @var int|string
    */
   protected $weight = '';
-  
+
   /**
    * The title of the FieldValidationRule.
    *
    * @var string
    */
   protected $title = '';
-  
+
   /**
    * The field name of the FieldValidationRule.
    *
@@ -53,13 +53,21 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
    * @var string
    */
   protected $column = '';
+
   /**
    * The error message of the FieldValidationRule.
    *
    * @var string
    */
   protected $error_message = '';
-  
+
+  /**
+   * The user roles to which this rule is applicable.
+   *
+   * @var string[]
+   */
+  protected $roles = [];
+
   /**
    * A logger instance.
    *
@@ -170,6 +178,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       'field_name' => $this->getFieldName(),
       'column' => $this->getColumn(),
       'error_message' => $this->getErrorMessage(),
+      'roles' => $this->getApplicableRoles(),
       'data' => $this->configuration,
     ];
   }
@@ -186,6 +195,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       'field_name' => '',
       'column' => '',
       'error_message' => '',
+      'roles' => [],
     ];
     $this->configuration = $configuration['data'] + $this->defaultConfiguration();
     $this->uuid = $configuration['uuid'];
@@ -194,6 +204,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     $this->field_name = $configuration['field_name'];
     $this->column = $configuration['column'];
     $this->error_message = $configuration['error_message'];
+    $this->roles = $configuration['roles'];
     return $this;
   }
 
@@ -210,6 +221,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   public function calculateDependencies() {
     return [];
   }
+
   /**
    * Returns the field name of the field_validation_rule.
    *
@@ -219,6 +231,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   public function getFieldName(){
     return $this->field_name;
   }
+
   /**
    * Sets the field name for this field_validation_rule.
    *
@@ -231,6 +244,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     $this->field_name = $field_name;
     return $this;
   }
+
   /**
    * Returns the column of the field_validation_rule.
    *
@@ -240,6 +254,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   public function getColumn(){
     return $this->column;
   }
+
   /**
    * Sets the column for this field_validation_rule.
    *
@@ -252,7 +267,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     $this->column = $column;
     return $this;
   }
-  
+
   /**
    * Returns the error message of the field_validation_rule.
    *
@@ -262,6 +277,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   public function getErrorMessage(){
     return $this->error_message;
   }
+
   /**
    * Sets the error message for this field_validation_rule.
    *
@@ -273,14 +289,28 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   public function setErrorMessage($error_message){
     $this->error_message = $error_message;
     return $this;
-  }  
-  
+  }
+
   /**
    * {@inheritdoc}
    */  
-
    public function validate($params) {
     return true;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getApplicableRoles() {
+    return $this->roles;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setApplicableRoles(array $roles) {
+    $this->roles = $roles;
+    return $this;
   }
 
 }

@@ -157,5 +157,32 @@ interface FieldValidationRuleInterface extends PluginInspectionInterface, Config
    */
   public function setErrorMessage($error_message);
 
+  /**
+   * Validate the value.
+   *
+   * @param [] $params
+   *   The context params passed for validate.
+   *
+   */
   public function validate($params);
+
+  /**
+   * Returns a list of the user roles this rule is applicable for.
+   *
+   * @return string[]
+   *   The applicable roles. Empty array when the rule is applicable for any
+   *   user (all roles).
+   */
+  public function getApplicableRoles();
+
+  /**
+   * Set the user roles this rule is applicable for.
+   *
+   * @param string[] $roles
+   *   The applicable roles.
+   *
+   * @return $this
+   */
+  public function setApplicableRoles(array $roles);
+
 }

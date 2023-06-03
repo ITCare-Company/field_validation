@@ -41,8 +41,12 @@ field_validation.rule_set.*:
             type: string
             label: 'Field column'
           error_message:
-            type: label
+            type: string
             label: 'Error message'
+          roles:
+            type: sequence
+            sequence:
+              type: string
 
 field_validation.rule.*:
   type: mapping

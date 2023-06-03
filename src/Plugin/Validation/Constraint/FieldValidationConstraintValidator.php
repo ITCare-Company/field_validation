@@ -40,8 +40,12 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
     $rules_available = [];
     $field_name = $items->getFieldDefinition()->getName();
 
-    foreach ($rules as $rule) {
-      if ($rule->getFieldName() == $field_name) {
+	foreach($rules as $rule) {
+	  if ($rule->getFieldName() == $field_name
+      && (
+        !($applicable_roles = $rule->getApplicableRoles())
+        || array_intersect($applicable_roles, \Drupal::currentUser()->getRoles()))
+      ) {
         $rules_available[] = $rule;
       }
     }

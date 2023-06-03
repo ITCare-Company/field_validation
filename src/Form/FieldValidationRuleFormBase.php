@@ -191,6 +191,15 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#value' => $request->query->has('weight') ? (int) $request->query->get('weight') : $this->fieldValidationRule->getWeight(),
     ];
 
+    $test_roles = $this->fieldValidationRule->getApplicableRoles();
+    $form['roles'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Apply to this roles'),
+      '#default_value' => $test_roles,
+      '#options' => array_map('\Drupal\Component\Utility\Html::escape', user_role_names()),
+      '#description' => $this->t('If you select no roles, the rule will be applicable for all users.'),
+    ];
+
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -278,6 +287,8 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $this->fieldValidationRule->setFieldName($form_state->getValue('field_name'));
     $this->fieldValidationRule->setColumn($form_state->getValue('column'));
     $this->fieldValidationRule->setErrorMessage($form_state->getValue('error_message'));
+    // Update the rule applicable roles.
+    $this->fieldValidationRule->setApplicableRoles(array_filter($form_state->getValue('roles')));
     if (!$this->fieldValidationRule->getUuid()) {
       $this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
     }else{
