@@ -200,9 +200,9 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     $this->uuid = $configuration['uuid'];
     $this->title = $configuration['title'];
     $this->weight = $configuration['weight'];
-    $this->fieldName = $configuration['field_name'];
+    $this->field_name = $configuration['field_name'];
     $this->column = $configuration['column'];
-    $this->errorMessage = $configuration['error_message'];
+    $this->error_message = $configuration['error_message'];
     $this->roles = $configuration['roles'];
     return $this;
   }
