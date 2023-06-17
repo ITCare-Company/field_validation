@@ -41,7 +41,7 @@ class WordsFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   public function defaultConfiguration() {
     return [
       'min' => NULL,
-      'max' => NULL
+      'max' => NULL,
     ];
   }
 
@@ -76,7 +76,10 @@ class WordsFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $this->configuration['min'] = $form_state->getValue('min');
     $this->configuration['max'] = $form_state->getValue('max');
   }
-  
+
+  /**
+   *
+   */
   public function validate($params) {
     $value = $params['value'] ?? '';
     $rule = $params['rule'] ?? NULL;

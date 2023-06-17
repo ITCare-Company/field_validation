@@ -20,7 +20,6 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
   /**
    * {@inheritdoc}
    */
-
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
 
     return TRUE;
@@ -92,6 +91,9 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $this->configuration['cycle'] = $form_state->getValue('cycle');
   }
 
+  /**
+   *
+   */
   public function validate($params) {
     $value = $params['value'] ?? '';
     $rule = $params['rule'] ?? NULL;
@@ -103,8 +105,8 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     if ($value !== '' && !is_null($value) && !is_array($value)) {
       $flag = FALSE;
-      $cycle = isset($settings['cycle']) ? $settings['cycle'] : '';
-      // support date, datetime
+      $cycle = $settings['cycle'] ?? '';
+      // Support date, datetime.
       if (!is_numeric($value)) {
         $value = strtotime($value);
       }
@@ -161,4 +163,5 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     }
   }
+
 }

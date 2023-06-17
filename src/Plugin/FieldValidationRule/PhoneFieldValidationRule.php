@@ -70,7 +70,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $this->configuration['country'] = $form_state->getValue('country');
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -92,12 +92,12 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       }
     }
   }
-  
+
   /**
    * Phone regex of countries.
    */
   public function phoneCountries() {
-   $countries = [
+    $countries = [
       'fr' => [
         'name' => $this->t('France'),
         'regex' => '/(\+33|0)([1-9]\d{8}|85\d{7}|87[0-57-9]\d{6})$/',

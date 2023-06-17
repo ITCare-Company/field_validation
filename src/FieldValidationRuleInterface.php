@@ -5,7 +5,6 @@ namespace Drupal\field_validation;
 use Drupal\Component\Plugin\ConfigurableInterface;
 use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
  * Defines the interface for Field Validation.
@@ -26,14 +25,13 @@ interface FieldValidationRuleInterface extends PluginInspectionInterface, Config
    *   An field_validation_rule_set object.
    *
    * @return bool
-   *   TRUE on success. FALSE if unable to add the field_validation_rule to the field_validation_rule_set.
+   *   TRUE on success. FALSE if unable to add the
+   *   field_validation_rule to the field_validation_rule_set.
    */
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set);
 
-
   /**
-   * Returns the extension the derivative would have have after adding this
-   * field_validation_rule.
+   * Get the derivative after adding this field_validation_rule.
    *
    * @param string $extension
    *   The field_validation_rule extension the derivative has before adding.
@@ -44,7 +42,7 @@ interface FieldValidationRuleInterface extends PluginInspectionInterface, Config
   public function getDerivativeExtension($extension);
 
   /**
-   * Returns a render array summarizing the configuration of the field_validation_rule.
+   * Get the summary of the configuration of the field_validation_rule.
    *
    * @return array
    *   A render array.
@@ -71,7 +69,8 @@ interface FieldValidationRuleInterface extends PluginInspectionInterface, Config
    * Returns the weight of the field_validation_rule.
    *
    * @return int|string
-   *   Either the integer weight of the field_validation_rule, or an empty string.
+   *   Either the integer weight of the field_validation_rule
+   *   or an empty string.
    */
   public function getWeight();
 
@@ -160,9 +159,8 @@ interface FieldValidationRuleInterface extends PluginInspectionInterface, Config
   /**
    * Validate the value.
    *
-   * @param [] $params
+   * @param array $params
    *   The context params passed for validate.
-   *
    */
   public function validate($params);
 

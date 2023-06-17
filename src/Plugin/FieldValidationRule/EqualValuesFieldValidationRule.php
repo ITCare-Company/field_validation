@@ -1,18 +1,14 @@
 <?php
 
-
 namespace Drupal\field_validation\Plugin\FieldValidationRule;
 
-
-use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_validation\ConfigurableFieldValidationRuleBase;
-use Drupal\field_validation\ConfigurableFieldValidationRuleInterface;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * EqualValuesFieldValidationRule
+ * Provides functionality for EqualValuesFieldValidationRule.
  *
  * @FieldValidationRule(
  *   id = "equal_values_field_validation_rule",
@@ -76,8 +72,8 @@ class EqualValuesFieldValidationRule extends ConfigurableFieldValidationRuleBase
   public function validate($params) {
     $flag = TRUE;
     $items = $params['items'] ?? [];
-	
-    /** @var ConfigurableFieldValidationRuleInterface $rule */
+
+    /** @var \Drupal\field_validation\ConfigurableFieldValidationRuleInterface $rule */
     $rule = $params['rule'] ?? NULL;
     /** @var \Drupal\field_validation\Entity\FieldValidationRuleSet $ruleset */
     $ruleset = $params['ruleset'] ?? NULL;
@@ -98,7 +94,7 @@ class EqualValuesFieldValidationRule extends ConfigurableFieldValidationRuleBase
       if ($configuration['data']['data'] !== $group_name) {
         continue;
       }
-		
+
       foreach ($items as $delta => $item) {
         $item = $item->getValue();
         $item_value = $item[$rule->getColumn()] ?? "";
@@ -106,13 +102,12 @@ class EqualValuesFieldValidationRule extends ConfigurableFieldValidationRuleBase
         $other_items = $entity->{$other_group_rule->getFieldName()}->getValue();
         $other_item_value = $other_items[$delta][$other_group_rule->getColumn()] ?? "";
 
-        if ($item_value !== $other_item_value){
+        if ($item_value !== $other_item_value) {
           $flag = FALSE;
           break;
         }
       }
     }
-
 
     if (!$flag) {
       $context->addViolation($rule->getErrorMessage());
@@ -120,7 +115,9 @@ class EqualValuesFieldValidationRule extends ConfigurableFieldValidationRuleBase
 
   }
 
-
+  /**
+   * Get the field value.
+   */
   private function getFieldColumnValue($items, $column = 'value'): array {
     $field_values = [];
     foreach ($items as $delta => $item) {
@@ -133,4 +130,5 @@ class EqualValuesFieldValidationRule extends ConfigurableFieldValidationRuleBase
     }
     return $field_values;
   }
+
 }
