@@ -177,6 +177,17 @@ field_validation.rule.words_field_validation_rule:
       type: string
       label: 'Maximum number of words'
 
+field_validation.rule.item_count_field_validation_rule:
+  type: mapping
+  label: 'Min/max item count field validation rule'
+  mapping:
+    min:
+      type: integer
+      label: 'Minimum field values'
+    max:
+      type: integer
+      label: 'Maximum field values'
+
 field_validation.rule.url_field_validation_rule:
   type: mapping
   label: 'Url field validation rule'
