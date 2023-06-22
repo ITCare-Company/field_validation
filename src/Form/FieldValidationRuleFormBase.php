@@ -230,8 +230,8 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       'less_than' => $this->t('Less than'),
       'greater_or_equal' => $this->t('Greater or equal'),
       'less_or_equal' => $this->t('Less or equal'),
-	  'empty' => $this->t('Empty'),
-	  'not_empty' => $this->t('Not empty'),
+      'empty' => $this->t('Empty'),
+      'not_empty' => $this->t('Not empty'),
     ];
     $form['condition']['operator'] = [
       '#type' => 'select',

@@ -352,26 +352,26 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     }
     $value = $condition['value'] ?? "";
     // \Drupal::messenger()->addMessage("field_name:" .var_export($field_name,true));
-	$entity_type_id = $entity->getEntityType()->id();
-	$field_type =  $entity->getFieldDefinition($field_name)->getType();
-	$field_type_manager =  \Drupal::service('plugin.manager.field.field_type');
+    $entity_type_id = $entity->getEntityType()->id();
+    $field_type =  $entity->getFieldDefinition($field_name)->getType();
+    $field_type_manager =  \Drupal::service('plugin.manager.field.field_type');
     $plugin_definition = $field_type_manager->getDefinition($field_type, FALSE);
     //Get main property, default value.
     $main_property = "value";
     if (!empty($plugin_definition['class'])) {
       $plugin_class = DefaultFactory::getPluginClass($field_type, $plugin_definition);
       $main_property = $plugin_class::mainPropertyName();
-    }	  
-    
+    } 
+
     $field_value = $entity->{$field_name}->{$main_property} ?? NULL;
     // \Drupal::messenger()->addMessage("field_value:" .var_export($field_value,true));
 
     //Type convert, do we need this code?
     if(is_int($field_value)){
       $value = (int) $value;
-	}elseif(is_float($field_value)){
+    }elseif(is_float($field_value)){
       $value = (float) $value;
-	}
+    }
     //  \Drupal::messenger()->addMessage("value:" .var_export($value,true));
     switch ($operator){
       case 'equals':
