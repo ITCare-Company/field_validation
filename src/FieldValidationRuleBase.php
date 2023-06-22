@@ -4,6 +4,9 @@ namespace Drupal\field_validation;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Component\Plugin\Factory\DefaultFactory;
+use Drupal\field\Entity\FieldStorageConfig;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -67,6 +70,13 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
    * @var string[]
    */
   protected $roles = [];
+
+  /**
+   * The field condition to which this rule is applicable.
+   *
+   * @var array
+   */
+  protected $condition = [];
 
   /**
    * A logger instance.
@@ -178,6 +188,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       'column' => $this->getColumn(),
       'error_message' => $this->getErrorMessage(),
       'roles' => $this->getApplicableRoles(),
+      'condition' => $this->getCondition(),
       'data' => $this->configuration,
     ];
   }
@@ -195,6 +206,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       'column' => '',
       'error_message' => '',
       'roles' => [],
+      'condition' => [],
     ];
     $this->configuration = $configuration['data'] + $this->defaultConfiguration();
     $this->uuid = $configuration['uuid'];
@@ -204,6 +216,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     $this->column = $configuration['column'];
     $this->error_message = $configuration['error_message'];
     $this->roles = $configuration['roles'];
+    $this->condition = $configuration['condition'];
     return $this;
   }
 
@@ -310,6 +323,84 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   public function setApplicableRoles(array $roles) {
     $this->roles = $roles;
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCondition() {
+    return $this->condition;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCondition(array $condition) {
+    $this->condition = $condition;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function checkCondition(ContentEntityInterface $entity) {
+    $condition = $this->condition;
+    $field_name = $condition['field'] ?? "";
+    $operator = $condition['operator'] ?? "";
+    if (empty($field_name) || empty($operator)) {
+      return TRUE;
+    }
+    $value = $condition['value'] ?? "";
+    // \Drupal::messenger()->addMessage("field_name:" .var_export($field_name,true));
+	$entity_type_id = $entity->getEntityType()->id();
+	$field_type =  $entity->getFieldDefinition($field_name)->getType();
+	$field_type_manager =  \Drupal::service('plugin.manager.field.field_type');
+    $plugin_definition = $field_type_manager->getDefinition($field_type, FALSE);
+    //Get main property, default value.
+    $main_property = "value";
+    if (!empty($plugin_definition['class'])) {
+      $plugin_class = DefaultFactory::getPluginClass($field_type, $plugin_definition);
+      $main_property = $plugin_class::mainPropertyName();
+    }	  
+    
+    $field_value = $entity->{$field_name}->{$main_property} ?? NULL;
+    // \Drupal::messenger()->addMessage("field_value:" .var_export($field_value,true));
+
+    //Type convert, do we need this code?
+    if(is_int($field_value)){
+      $value = (int) $value;
+	}elseif(is_float($field_value)){
+      $value = (float) $value;
+	}
+    //  \Drupal::messenger()->addMessage("value:" .var_export($value,true));
+    switch ($operator){
+      case 'equals':
+          return $field_value == $value;
+          break;  
+      case 'not_equals':
+          return $field_value != $value;
+          break;
+      case 'greater_than':
+          return $field_value > $value;
+          break;  
+      case 'less_than':
+          return $field_value < $value;
+          break;
+      case 'greater_or_equal':
+          return $field_value >= $value;
+          break;  
+      case 'less_or_equal':
+          return $field_value <= $value;
+          break;
+      case 'empty':
+          return empty($field_value);
+          break;
+      case 'not_empty':
+          return !empty($field_value);
+          break;		  
+    }
+	  
+    return FALSE;
   }
 
 }

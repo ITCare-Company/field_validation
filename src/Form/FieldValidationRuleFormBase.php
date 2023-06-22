@@ -207,6 +207,45 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#description' => $this->t('If you select no roles, the rule will be applicable for all users.'),
     ];
 
+    $condition = $this->fieldValidationRule->getCondition();
+    $form['condition'] = [
+      '#type' => 'details',
+      '#open' => FALSE,
+      '#tree' => TRUE,
+      '#title' => $this->t('Condition'),
+    ];
+
+    $form['condition']['field'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Field name'),
+      '#options' => $field_options,
+      '#default_value' => $condition['field'] ?? "",
+    ];
+
+    $operator_options = [
+      '' => $this->t('- Select -'),
+      'equals' => $this->t('Equals'),
+      'not_equals' => $this->t('Not equals'),
+      'greater_than' => $this->t('Greater than'),
+      'less_than' => $this->t('Less than'),
+      'greater_or_equal' => $this->t('Greater or equal'),
+      'less_or_equal' => $this->t('Less or equal'),
+	  'empty' => $this->t('Empty'),
+	  'not_empty' => $this->t('Not empty'),
+    ];
+    $form['condition']['operator'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Operator'),
+      '#options' => $operator_options,
+      '#default_value' => $condition['operator'] ?? "",
+    ];
+
+    $form['condition']['value'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Value'),
+      '#default_value' => $condition['value'] ?? "",
+    ];
+
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -300,6 +339,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     $this->fieldValidationRule->setErrorMessage($form_state->getValue('error_message'));
     // Update the rule applicable roles.
     $this->fieldValidationRule->setApplicableRoles(array_filter($form_state->getValue('roles')));
+    $this->fieldValidationRule->setCondition($form_state->getValue('condition'));
     if (!$this->fieldValidationRule->getUuid()) {
       $this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
     }

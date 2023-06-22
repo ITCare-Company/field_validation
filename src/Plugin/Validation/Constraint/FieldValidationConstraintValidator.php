@@ -43,6 +43,8 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
       && (
         !($applicable_roles = $rule->getApplicableRoles())
         || array_intersect($applicable_roles, \Drupal::currentUser()->getRoles()))
+	  && (
+        $rule->checkCondition($entity))
       ) {
         $rules_available[] = $rule;
       }

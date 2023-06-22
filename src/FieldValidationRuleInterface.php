@@ -183,4 +183,22 @@ interface FieldValidationRuleInterface extends PluginInspectionInterface, Config
    */
   public function setApplicableRoles(array $roles);
 
+  /**
+   * Returns the condition this rule is applicable for.
+   *
+   * @return array
+   *   The applicable condition.
+   */
+  public function getCondition();
+
+  /**
+   * Set the condition this rule is applicable for.
+   *
+   * @param array $condition
+   *   The applicable condition.
+   *
+   * @return $this
+   */
+  public function setCondition(array $condition);
+
 }

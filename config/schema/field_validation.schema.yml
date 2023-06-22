@@ -47,6 +47,18 @@ field_validation.rule_set.*:
             type: sequence
             sequence:
               type: string
+          condition:
+            type: mapping
+            mapping:
+              field:
+                type: string
+                label: 'Field name'
+              operator:
+                type: string
+                label: 'Operator'
+              value:
+                type: string
+                label: 'Value'
 
 field_validation.rule.*:
   type: mapping
