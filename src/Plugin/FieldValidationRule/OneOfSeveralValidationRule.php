@@ -123,7 +123,7 @@ class OneOfSeveralValidationRule extends ConfigurableFieldValidationRuleBase {
    */
   private function getFieldColumnValue($items, $column = 'value'): array {
     $field_values = [];
-    foreach ($items as $delta => $item) {
+    foreach ($items as $item) {
       if ($item instanceof FieldItemInterface) {
         $item = $item->getValue();
       }

@@ -112,8 +112,6 @@ class MatchFieldFieldValidationRule extends ConfigurableFieldValidationRuleBase 
     $value = $params['value'] ?? '';
     $rule = $params['rule'] ?? NULL;
     $context = $params['context'] ?? NULL;
-    $items = $params['items'] ?? [];
-    $delta = $params['delta'] ?? '';
     $column = $rule->getColumn();
 
     $settings = [];

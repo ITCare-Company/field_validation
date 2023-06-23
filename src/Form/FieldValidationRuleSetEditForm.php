@@ -226,7 +226,7 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
       ];
       $field_validation_rule_id = $this->entity->addFieldValidationRule($field_validation_rule);
       $this->entity->save();
-      if (!empty($tab_id)) {
+      if (!empty($field_validation_rule_id)) {
         $this->messenger()->addMessage($this->t('The rule was successfully added.'));
       }
     }

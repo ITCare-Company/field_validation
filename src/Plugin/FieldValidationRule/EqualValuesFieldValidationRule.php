@@ -115,20 +115,4 @@ class EqualValuesFieldValidationRule extends ConfigurableFieldValidationRuleBase
 
   }
 
-  /**
-   * Get the field value.
-   */
-  private function getFieldColumnValue($items, $column = 'value'): array {
-    $field_values = [];
-    foreach ($items as $delta => $item) {
-      if ($item instanceof FieldItemInterface) {
-        $item = $item->getValue();
-      }
-      if (is_array($item) && isset($item[$column]) && $item[$column] != '') {
-        $field_values[] = $item[$column];
-      }
-    }
-    return $field_values;
-  }
-
 }
