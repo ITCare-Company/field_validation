@@ -91,13 +91,16 @@ class WordsFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     if ($value != '') {
       $flag = TRUE;
       $length = count(explode(' ', trim(preg_replace('/\s+/', ' ', str_replace('&nbsp;', ' ', (strip_tags(str_replace('<', ' <', $value))))))));
+      $token_data = $this->getTokenData($params);
       if (isset($settings['min']) && $settings['min'] != '') {
+        $settings['min'] = $this->tokenService->replace($settings['min'], $token_data);
         $min = $settings['min'];
         if ($length < $min) {
           $flag = FALSE;
         }
       }
       if (isset($settings['max']) && $settings['max'] != '') {
+        $settings['max'] = $this->tokenService->replace($settings['max'], $token_data);
         $max = $settings['max'];
         if ($length > $max) {
           $flag = FALSE;
