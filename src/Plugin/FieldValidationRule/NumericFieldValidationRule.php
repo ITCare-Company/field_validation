@@ -99,13 +99,16 @@ class NumericFieldValidationRule extends ConfigurableFieldValidationRuleBase {
         $flag = FALSE;
       }
       else {
+        $token_data = $this->getTokenData($params);
         if (isset($settings['min']) && $settings['min'] != '') {
+          $settings['min'] = $this->tokenService->replace($settings['min'], $token_data);
           $min = $settings['min'];
           if ($value < $min) {
             $flag = FALSE;
           }
         }
         if (isset($settings['max']) && $settings['max'] != '') {
+          $settings['max'] = $this->tokenService->replace($settings['max'], $token_data);
           $max = $settings['max'];
           if ($value > $max) {
             $flag = FALSE;
@@ -115,6 +118,7 @@ class NumericFieldValidationRule extends ConfigurableFieldValidationRuleBase {
           // Check that the input is an allowed multiple
           // of #step (offset by #min if #min is set).
           $offset = $settings['min'] ?? 0.0;
+          $settings['step'] = $this->tokenService->replace($settings['step'], $token_data);
           $step = $settings['step'];
           // The logic code was copied from Drupal 8 core.
           if ($step > 0 && !$this->valid_number_step($value, $step, $offset)) {
