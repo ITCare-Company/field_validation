@@ -318,7 +318,7 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
    * @return string
    *   The error message to display.
    */
-  public function getReplacedErrorMessage($params) {
+  public function getReplacedErrorMessage(array $params) {
     $error_message = $this->error_message;
 
     $data = $this->getTokenData($params);
@@ -379,10 +379,19 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       return TRUE;
     }
     $value = $condition['value'] ?? "";
-    $token_data = $this->getTokenData($params);
+	
+
+	$entity_type = $entity->getEntityTypeId();
+    //Some entity not use entity_type_id as token type, we need change it.
+    switch ($entity_type) {
+      case 'taxonomy_term':
+        $entity_type = str_replace('taxonomy_', '', $entity_type);
+        break;
+    }
+    $token_data = [$entity_type => $entity];
     $value = $this->tokenService->replace($value, $token_data);
     // \Drupal::messenger()->addMessage("field_name:" .var_export($field_name,true));
-    $entity_type_id = $entity->getEntityType()->id();
+    //$entity_type_id = $entity->getEntityType()->id();
     $field_type =  $entity->getFieldDefinition($field_name)->getType();
     $field_type_manager =  \Drupal::service('plugin.manager.field.field_type');
     $plugin_definition = $field_type_manager->getDefinition($field_type, FALSE);
@@ -465,6 +474,13 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       'field_name' => $field_name,
       'value' => $value,
     ];
+
+    //Some entity not use entity_type_id as token type, we need change it.
+    switch ($entity_type) {
+      case 'taxonomy_term':
+        $entity_type = str_replace('taxonomy_', '', $entity_type);
+        break;
+    }
 
     $ret = [
       'current_field' => $current_field,
