@@ -114,11 +114,14 @@ class DateRangeFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       $date_str = date("Y-m-d H:i:s", $value);
       $str_place = 0;
       if ($cycle == 'global') {
+        $token_data = $this->getTokenData($params);
         if (!empty($settings['min'])) {
+          $settings['min'] = $this->tokenService->replace($settings['min'], $token_data);
           $settings['min'] = strtotime($settings['min']);
           $settings['min'] = date("Y-m-d H:i:s", $settings['min']);
         }
         if (!empty($settings['max'])) {
+          $settings['max'] = $this->tokenService->replace($settings['max'], $token_data);
           $settings['max'] = strtotime($settings['max']);
           $settings['max'] = date("Y-m-d H:i:s", $settings['max']);
         }
