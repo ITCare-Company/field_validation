@@ -379,6 +379,8 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       return TRUE;
     }
     $value = $condition['value'] ?? "";
+    $token_data = $this->getTokenData($params);
+    $value = $this->tokenService->replace($value, $token_data);
     // \Drupal::messenger()->addMessage("field_name:" .var_export($field_name,true));
     $entity_type_id = $entity->getEntityType()->id();
     $field_type =  $entity->getFieldDefinition($field_name)->getType();
