@@ -85,7 +85,7 @@ class PatternFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $pattern = preg_replace('/9/', '[0-9]', $pattern);
     $pattern = preg_replace('/#/', '[a-zA-Z0-9]', $pattern);
     if ($value != '' && (!preg_match('/^(' . $pattern . ')$/', $value))) {
-      $context->addViolation($rule->getErrorMessage());
+      $context->addViolation($rule->getReplacedErrorMessage($params));
     }
   }
 

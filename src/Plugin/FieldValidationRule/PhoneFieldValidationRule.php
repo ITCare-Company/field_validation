@@ -88,7 +88,7 @@ class PhoneFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       $countries = $this->phoneCountries();
       $country_regex = $countries[$country_code]['regex'] ?? '';
       if (!preg_match($country_regex, $value)) {
-        $context->addViolation($rule->getErrorMessage());
+        $context->addViolation($rule->getReplacedErrorMessage($params));
       }
     }
   }

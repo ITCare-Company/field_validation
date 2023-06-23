@@ -66,7 +66,7 @@ class MustBeEmptyFieldValidationRule extends ConfigurableFieldValidationRuleBase
     $context = $params['context'] ?? NULL;
 
     if ($value != '') {
-      $context->addViolation($rule->getErrorMessage());
+      $context->addViolation($rule->getReplacedErrorMessage($params));
     }
   }
 

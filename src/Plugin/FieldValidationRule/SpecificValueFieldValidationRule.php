@@ -88,7 +88,7 @@ class SpecificValueFieldValidationRule extends ConfigurableFieldValidationRuleBa
       }
 
       if (!$flag) {
-        $context->addViolation($rule->getErrorMessage());
+        $context->addViolation($rule->getReplacedErrorMessage($params));
       }
     }
   }

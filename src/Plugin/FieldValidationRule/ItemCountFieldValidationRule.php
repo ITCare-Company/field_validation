@@ -101,12 +101,12 @@ class ItemCountFieldValidationRule extends ConfigurableFieldValidationRuleBase {
 
     $min = intval($settings['min']);
     if ($count < $min) {
-      $context->addViolation($rule->getErrorMessage());
+      $context->addViolation($rule->getReplacedErrorMessage($params));
     }
 
     $max = intval($settings['max']);
     if ($max > 0 && $count > $max) {
-      $context->addViolation($rule->getErrorMessage());
+      $context->addViolation($rule->getReplacedErrorMessage($params));
     }
 
     return TRUE;

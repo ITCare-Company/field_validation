@@ -84,7 +84,7 @@ class BlocklistFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $blocklist_regex = implode('|', $blocklist);
     // $settings = $this->rule->settings;
     if ($value !== '' && !is_null($value) && preg_match("/$blocklist_regex/i", $value)) {
-      $context->addViolation($rule->getErrorMessage());
+      $context->addViolation($rule->getReplacedErrorMessage($params));
     }
   }
 

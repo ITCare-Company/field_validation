@@ -143,7 +143,7 @@ class IpFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       }
 
       if (!filter_var($value, FILTER_VALIDATE_IP, $flag)) {
-        $context->addViolation($rule->getErrorMessage());
+        $context->addViolation($rule->getReplacedErrorMessage($params));
       }
     }
   }

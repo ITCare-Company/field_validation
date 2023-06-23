@@ -111,7 +111,7 @@ class UrlFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       }
 
       if (!$flag) {
-        $context->addViolation($rule->getErrorMessage());
+        $context->addViolation($rule->getReplacedErrorMessage($params));
       }
     }
   }

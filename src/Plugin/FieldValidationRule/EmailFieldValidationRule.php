@@ -66,7 +66,7 @@ class EmailFieldValidationRule extends ConfigurableFieldValidationRuleBase {
     $context = $params['context'] ?? NULL;
 
     if ($value != '' && (!\Drupal::service('email.validator')->isValid($value))) {
-      $context->addViolation($rule->getErrorMessage());
+      $context->addViolation($rule->getReplacedErrorMessage($params));
     }
   }
 

@@ -97,7 +97,7 @@ class IntegerFieldValidationRule extends ConfigurableFieldValidationRuleBase {
       }
 
       if (FALSE === filter_var($value, FILTER_VALIDATE_INT, $options)) {
-        $context->addViolation($rule->getErrorMessage());
+        $context->addViolation($rule->getReplacedErrorMessage($params));
       }
 
     }
