@@ -190,7 +190,21 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#maxlength' => 255,
     ];
     $form['data']['#tree'] = TRUE;
-
+    // Add a token link.
+    if (\Drupal::moduleHandler()->moduleExists('token')) {
+      //Some entity not use entity_type_id as token type, we need change it.
+      switch ($entity_type_id) {
+        case 'taxonomy_term':
+          $entity_type_id = str_replace('taxonomy_', '', $entity_type_id);
+          break;
+      }
+      // Show the token help link.
+      $form['pattern_container']['token_help'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => [$entity_type_id],
+      ];
+    }
+	  
     // Check the URL for a weight, then the fieldValidationRule
     // otherwise use default.
     $form['weight'] = [

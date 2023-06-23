@@ -7,6 +7,7 @@ use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Component\Plugin\Factory\DefaultFactory;
 use Drupal\field\Entity\FieldStorageConfig;
+use \Drupal\Core\Utility\Token;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -86,13 +87,20 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   protected $logger;
 
   /**
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
+   */
+  protected $tokenService;  
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, Token $token_service) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->setConfiguration($configuration);
-    $this->logger = $logger;
+    $this->tokenService = $token_service;
   }
 
   /**
@@ -103,7 +111,8 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('logger.factory')->get('field_validation')
+      $container->get('logger.factory')->get('field_validation'),
+	  $container->get('token')
     );
   }
 
@@ -304,6 +313,25 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
   }
 
   /**
+   * Returns the replaced error message with token.
+   *
+   * @return string
+   *   The error message to display.
+   */
+  public function getReplacedErrorMessage($params) {
+    $error_message = $this->error_message;
+
+    $data = $this->getTokenData($params);
+    if (empty($data)) {
+      return $error_message;
+    }
+
+    $error_message = $this->tokenService->replace($error_message, $data);
+
+    return $error_message;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function validate($params) {
@@ -367,11 +395,11 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     // \Drupal::messenger()->addMessage("field_value:" .var_export($field_value,true));
 
     //Type convert, do we need this code?
-    if(is_int($field_value)){
-      $value = (int) $value;
-    }elseif(is_float($field_value)){
-      $value = (float) $value;
-    }
+    // if (is_int($field_value)) {
+    //  $value = (int) $value;
+    // }elseif (is_float($field_value)) {
+    //  $value = (float) $value;
+    // }
     //  \Drupal::messenger()->addMessage("value:" .var_export($value,true));
     switch ($operator){
       case 'equals':
@@ -401,6 +429,47 @@ abstract class FieldValidationRuleBase extends PluginBase implements FieldValida
     }
 	  
     return FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTokenData($params) {
+    $ret = [];
+    $items = $params['items'] ?? [];
+    if (empty($items)) {
+      return $ret;
+    }
+
+    // Get entity_type, do we need human name?
+    $entity = $items->getEntity();
+	$entity_type = $entity->getEntityTypeId();
+    // $entity_type = $entity->getEntityType()->label();
+
+    // Get bundle, do we need human name?
+	$bundle = $entity->bundle();
+    // $entity_type_id = $entity->getEntityTypeId();
+    // $bundle_id = $entity->bundle();
+    // $bundle_info = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type_id);
+    // $bundle = $bundle_info[$bundle_id]['label'];
+
+    // Get field name
+    $field_name = $items->getFieldDefinition()->getLabel();
+	$value = $params['value'] ?? "";
+
+    $current_field = [
+      'entity_type' => $entity_type,
+      'bundle' => $bundle,
+      'field_name' => $field_name,
+      'value' => $value,
+    ];
+
+    $ret = [
+      'current_field' => $current_field,
+      $entity_type => $entity,
+    ];	
+
+    return $ret;
   }
 
 }
