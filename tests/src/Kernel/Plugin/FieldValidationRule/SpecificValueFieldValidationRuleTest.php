@@ -117,7 +117,8 @@ class SpecificValueFieldValidationRuleTest extends FieldValidationRuleBase {
     $this->assertConstraintFail(
       $this->entity,
       self::FIELD_NAME,
-      implode(',', $this->whitelisted)
+      implode(',', $this->whitelisted),
+      $this->ruleSet
     );
   }
 
