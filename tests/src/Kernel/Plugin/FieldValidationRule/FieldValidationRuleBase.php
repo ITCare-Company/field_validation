@@ -20,7 +20,7 @@ abstract class FieldValidationRuleBase extends EntityKernelTestBase {
   /**
    * {@inheritDoc}
    */
-  public static $modules = ['node', 'field_validation'];
+  protected static $modules = ['node', 'field_validation'];
 
   /**
    * NodeStorage interface.
