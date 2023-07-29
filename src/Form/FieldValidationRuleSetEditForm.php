@@ -9,6 +9,7 @@ use Drupal\field_validation\ConfigurableFieldValidationRuleInterface;
 use Drupal\field_validation\FieldValidationRuleManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\field_validation\ConstraintFieldValidationRuleBase;
 
 /**
  * Controller for blocktabs edit form.
@@ -146,13 +147,22 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
     }
 
     // Build the new field_validation_rule addition form and add it to the field_validation_rule list.
-    $new_field_validation_rule_options = [];
+    $new_field_validation_rule_options = [
+      "Constraint rule" => [],
+      "Original rule" => [],
+    ];
     $field_validation_rules = $this->fieldValidationRuleManager->getDefinitions();
     uasort($field_validation_rules, function ($a, $b) {
       return strcasecmp($a['id'], $b['id']);
     });
+    $field_validation_rule_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
     foreach ($field_validation_rules as $field_validation_rule => $definition) {
-      $new_field_validation_rule_options[$field_validation_rule] = $definition['label'];
+      $field_validation_rule_instance =  $field_validation_rule_manager->createInstance($field_validation_rule, []);
+	  if ($field_validation_rule_instance instanceof ConstraintFieldValidationRuleBase) {
+        $new_field_validation_rule_options["Constraint rule"][$field_validation_rule] = $definition['label'];
+	  }else{
+        $new_field_validation_rule_options["Original rule"][$field_validation_rule] = $definition['label'];
+      }
     }
     $form['rules']['new'] = [
       '#tree' => FALSE,
