@@ -217,10 +217,22 @@ abstract class FieldValidationRuleFormBase extends FormBase {
           $entity_type_id = str_replace('taxonomy_', '', $entity_type_id);
           break;
       }
+      $form['pattern_container'] = [
+        '#type' => 'details',
+        '#open' => TRUE,
+        '#tree' => TRUE,
+        '#title' => $this->t('Token'),
+        '#states' => [
+          // Hide it when validate mode is direct.
+          'invisible' => [
+            ':input[name="data[validate_mode]"]' => ['value' => 'direct'],
+          ],
+        ],
+      ];	  
       // Show the token help link.
       $form['pattern_container']['token_help'] = [
         '#theme' => 'token_tree_link',
-        '#token_types' => [$entity_type_id],
+        '#token_types' => [$entity_type_id],	
       ];
     }
 	  
@@ -238,6 +250,12 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#default_value' => $test_roles,
       '#options' => array_map('\Drupal\Component\Utility\Html::escape', user_role_names()),
       '#description' => $this->t('If you select no roles, the rule will be applicable for all users.'),
+      '#states' => [
+        // Hide it when validate mode is direct.
+        'invisible' => [
+          ':input[name="data[validate_mode]"]' => ['value' => 'direct'],
+        ],
+      ],	  
     ];
 
     $condition = $this->fieldValidationRule->getCondition();
@@ -246,6 +264,12 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#open' => FALSE,
       '#tree' => TRUE,
       '#title' => $this->t('Condition'),
+      '#states' => [
+        // Hide it when validate mode is direct.
+        'invisible' => [
+          ':input[name="data[validate_mode]"]' => ['value' => 'direct'],
+        ],
+      ],
     ];
 
     $form['condition']['field'] = [
@@ -379,8 +403,9 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       $this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
     }
     else {
-      $this->fieldValidationRuleSet->deleteFieldValidationRule($this->fieldValidationRule);
-      $this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
+	  // Do not support ajax. Remove this code.
+      //$this->fieldValidationRuleSet->deleteFieldValidationRule($this->fieldValidationRule);
+      //$this->fieldValidationRuleSet->addFieldValidationRule($this->fieldValidationRule->getConfiguration());
     }
     $this->fieldValidationRuleSet->save();
     $this->messenger()->addMessage($this->t('The rule was successfully applied.'));
