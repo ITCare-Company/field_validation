@@ -173,30 +173,30 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#default_value' => $default_field_name,
       '#required' => TRUE,
       '#disabled' => TRUE,	  
-      '#ajax' => [
-        'callback' => [$this, 'updateColumn'],
-        'wrapper' => 'edit-field-name-wrapper',
-        'event' => 'change',
-      ],
+      //'#ajax' => [
+      //  'callback' => [$this, 'updateColumn'],
+      //  'wrapper' => 'edit-field-name-wrapper',
+      //  'event' => 'change',
+      //],
     ];
 
     $default_column = $this->fieldValidationRule->getColumn();
-    $default_column = $user_input['column'] ?? $default_column;
+    //$default_column = $user_input['column'] ?? $default_column;
     $column_options = $this->findColumn($default_field_name);
     if (!in_array($default_column, $column_options)) {
       $default_column = "";
     }
-
-    $form['column'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Column of field'),
-      '#options' => $column_options,
-      '#default_value' => $default_column,
-      '#required' => TRUE,
-      '#prefix' => '<div id="edit-field-name-wrapper">',
-      '#suffix' => '</div>',
-      '#validated' => TRUE,
-    ];
+    if (!$is_constraint_rule || $this->fieldValidationRule->isPropertyConstraint()) {
+      $form['column'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Column of field'),
+        '#options' => $column_options,
+        '#default_value' => $default_column,
+        '#required' => TRUE,
+        '#validated' => TRUE,
+      ];
+	}
+	
     $form['data'] = $this->fieldValidationRule->buildConfigurationForm([], $form_state);
     //Not display it for constraint rule
     if (!$is_constraint_rule) {
