@@ -72,7 +72,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
 	  }
     }
 
-    $validator_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
+    $field_validation_rule_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
     $constraint_manager = \Drupal::service('validation.constraint');
 	$class_resolver  = \Drupal::service('class_resolver');
     $constraint_validator_factory =  new ConstraintValidatorFactory($class_resolver);
@@ -119,7 +119,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
             $config = [];
             $params['rule'] = $rule;
             $params['ruleset'] = $ruleset;
-            $plugin_validator = $validator_manager->createInstance($rule->getPluginId(), $config);
+            $plugin_validator = $field_validation_rule_manager->createInstance($rule->getPluginId(), $config);
             $plugin_validator->validate($params);
 		  }
         }
@@ -152,7 +152,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
           $config = [];
           $params['rule'] = $rule;
           $params['ruleset'] = $ruleset;
-          $plugin_validator = $validator_manager->createInstance($rule->getPluginId(), $config);
+          $plugin_validator = $field_validation_rule_manager->createInstance($rule->getPluginId(), $config);
           $plugin_validator->validate($params);
         }
       }
