@@ -61,7 +61,7 @@ class FieldValidationRuleSetEditForm extends FieldValidationRuleSetFormBase {
     $user_input = $form_state->getUserInput();
     $form['#title'] = $this->t('Edit field validation rule set %name', ['%name' => $this->entity->label()]);
     $form['#tree'] = TRUE;
-    // $form['#attached']['library'][] = 'field_validation/admin';
+    $form['#attached']['library'][] = 'field_validation/admin';
     // Build the list of existing field validation rule for this rule set.
     $form['rules'] = [
       '#type' => 'table',
