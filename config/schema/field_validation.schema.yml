@@ -79,10 +79,24 @@ field_validation.rule.length_constraint_rule:
       label: 'Max'
     maxMessage:
       type: string
-      label: 'Max Message'
+      label: 'Max message'
     minMessage:
       type: string
-      label: 'Min Message'
+      label: 'Min message'
     exactMessage:
       type: string
-      label: 'Exact Message'
+      label: 'Exact message'
+
+field_validation.rule.regex_constraint_rule:
+  type: mapping
+  label: 'Regex constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    pattern:
+      type: string
+      label: 'Pattern'
+    message:
+      type: string
+      label: 'Message'

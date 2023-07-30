@@ -62,6 +62,14 @@ abstract class ConstraintFieldValidationRuleBase extends ConfigurableFieldValida
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
+
+    return TRUE;
+  }
+
+  /**
    * Get the constraint name.
    *
    * @return string
