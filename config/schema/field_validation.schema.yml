@@ -100,3 +100,14 @@ field_validation.rule.regex_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.email_constraint_rule:
+  type: mapping
+  label: 'Email constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'

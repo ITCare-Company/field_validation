@@ -34,23 +34,6 @@ class LengthConstraintFieldValidationRule extends ConstraintFieldValidationRuleB
   /**
    * {@inheritdoc}
    */
-  public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {
-
-    return TRUE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSummary() {
-    $summary = parent::getSummary();
-
-    return $summary;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function defaultConfiguration() {
     return [
       'min' => NULL,

@@ -10,18 +10,18 @@ use Drupal\field_validation\FieldValidationRuleSetInterface;
  * Provides funcationality for EmailFieldValidationRule.
  *
  * @FieldValidationRule(
- *   id = "regex_constraint_rule",
- *   label = @Translation("Regex constraint"),
- *   description = @Translation("Regex constraint.")
+ *   id = "email_constraint_rule",
+ *   label = @Translation("Email constraint"),
+ *   description = @Translation("Email constraint.")
  * )
  */
-class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBase {
+class EmailConstraintFieldValidationRule extends ConstraintFieldValidationRuleBase {
 
   /**
    * {@inheritdoc}
    */
   public function getConstraintName(): string{
-    return "Regex";
+    return "Email";
   }
 
   /**
@@ -36,7 +36,6 @@ class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
    */
   public function defaultConfiguration() {
     return [
-      'pattern' => NULL,
       'message' => NULL,
     ] + parent::defaultConfiguration();
   }
@@ -48,14 +47,7 @@ class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
     $form = parent::buildConfigurationForm($form, $form_state);
 
     //copied from core.
-    $message = 'This value is not valid.';
-
-    $form['pattern'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Pattern'),
-      '#default_value' => $this->configuration['pattern'],
-      '#required' => TRUE,
-    ];
+    $message = 'This value is not a valid email address.';
 
     $form['message'] = [
       '#type' => 'textfield',
@@ -73,7 +65,6 @@ class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     parent::submitConfigurationForm($form, $form_state);
 
-    $this->configuration['pattern'] = $form_state->getValue('pattern');
     $this->configuration['message'] = $form_state->getValue('message');
   }
 
