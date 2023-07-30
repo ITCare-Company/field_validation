@@ -133,3 +133,14 @@ field_validation.rule.not_null_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.unique_field_constraint_rule:
+  type: mapping
+  label: 'Unique field constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
