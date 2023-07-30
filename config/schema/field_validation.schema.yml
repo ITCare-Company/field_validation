@@ -144,3 +144,29 @@ field_validation.rule.unique_field_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.range_constraint_rule:
+  type: mapping
+  label: 'Range constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    min:
+      type: string
+      label: 'Min'
+    max:
+      type: string
+      label: 'Max'
+    maxMessage:
+      type: string
+      label: 'Max message'
+    minMessage:
+      type: string
+      label: 'Min message'
+    invalidMessage:
+      type: string
+      label: 'Invalid message'
+    notInRangeMessage:
+      type: string
+      label: 'Not in range message'
