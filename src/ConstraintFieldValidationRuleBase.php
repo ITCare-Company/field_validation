@@ -50,6 +50,18 @@ abstract class ConstraintFieldValidationRuleBase extends ConfigurableFieldValida
   }
 
   /**
+   * Get the constraint options.
+   *
+   * @return array
+   */
+  public function getConstraintOptions(): array {
+    $constraintOptions = $this->configuration;
+    unset($constraintOptions['validate_mode']);
+    $constraintOptions = array_filter($constraintOptions);
+    return $constraintOptions;
+  }
+
+  /**
    * Get the constraint name.
    *
    * @return string

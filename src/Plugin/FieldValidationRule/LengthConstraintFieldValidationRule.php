@@ -58,7 +58,7 @@ class LengthConstraintFieldValidationRule extends ConstraintFieldValidationRuleB
       'maxMessage' => NULL,
       'minMessage' => NULL,
       'exactMessage' => NULL,
-    ];
+    ] + parent::defaultConfiguration();
   }
 
   /**
@@ -117,16 +117,6 @@ class LengthConstraintFieldValidationRule extends ConstraintFieldValidationRuleB
     $this->configuration['maxMessage'] = $form_state->getValue('maxMessage');
     $this->configuration['minMessage'] = $form_state->getValue('minMessage');
     $this->configuration['exactMessage'] = $form_state->getValue('exactMessage');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getConstraintOptions(): array {
-    $constraintOptions = $this->configuration;
-    unset($constraintOptions['validate_mode']);
-    $constraintOptions = array_filter($constraintOptions);
-    return $constraintOptions;
   }
 
 }
