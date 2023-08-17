@@ -204,3 +204,14 @@ field_validation.rule.blank_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.not_blank_constraint_rule:
+  type: mapping
+  label: 'NotBlank constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'

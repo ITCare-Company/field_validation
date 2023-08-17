@@ -7,21 +7,21 @@ use Drupal\field_validation\ConstraintFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * Provides funcationality for BlankConstraintFieldValidationRule.
+ * Provides funcationality for NotBlankConstraintFieldValidationRule.
  *
  * @FieldValidationRule(
- *   id = "blank_constraint_rule",
- *   label = @Translation("Blank constraint"),
- *   description = @Translation("Blank constraint.")
+ *   id = "not_blank_constraint_rule",
+ *   label = @Translation("NotBlank constraint"),
+ *   description = @Translation("NotBlank constraint.")
  * )
  */
-class BlankConstraintFieldValidationRule extends ConstraintFieldValidationRuleBase {
+class NotBlankConstraintFieldValidationRule extends ConstraintFieldValidationRuleBase {
 
   /**
    * {@inheritdoc}
    */
   public function getConstraintName(): string{
-    return "Blank";
+    return "NotBlank";
   }
 
   /**
@@ -47,7 +47,7 @@ class BlankConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
     $form = parent::buildConfigurationForm($form, $form_state);
 
     //copied from core.
-    $message = 'This value should be blank.';
+    $message = 'This value should not be blank.';
 
     $form['message'] = [
       '#type' => 'textfield',
