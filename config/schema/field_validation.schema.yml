@@ -114,7 +114,7 @@ field_validation.rule.email_constraint_rule:
 
 field_validation.rule.null_constraint_rule:
   type: mapping
-  label: 'IsNull constraint validation rule'
+  label: 'Null constraint validation rule'
   mapping:
     validate_mode:
       type: string
@@ -219,6 +219,17 @@ field_validation.rule.not_blank_constraint_rule:
 field_validation.rule.uuid_constraint_rule:
   type: mapping
   label: 'Uuid constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
+
+field_validation.rule.true_constraint_rule:
+  type: mapping
+  label: 'True constraint validation rule'
   mapping:
     validate_mode:
       type: string
