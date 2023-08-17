@@ -248,3 +248,17 @@ field_validation.rule.false_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.expression_constraint_rule:
+  type: mapping
+  label: 'Expression constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    expression:
+      type: string
+      label: 'Expression'
+    message:
+      type: string
+      label: 'Message'
