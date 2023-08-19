@@ -342,3 +342,17 @@ field_validation.rule.ulid_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.not_equal_to_constraint_rule:
+  type: mapping
+  label: 'NotEqualTo constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    value:
+      type: string
+      label: 'Value'
+    message:
+      type: string
+      label: 'Message'
