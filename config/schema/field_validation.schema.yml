@@ -300,3 +300,17 @@ field_validation.rule.json_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.ip_constraint_rule:
+  type: mapping
+  label: 'Ip constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    version:
+      type: string
+      label: 'Version'
+    message:
+      type: string
+      label: 'Message'
