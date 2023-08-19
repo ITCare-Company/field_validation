@@ -262,3 +262,19 @@ field_validation.rule.expression_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.css_color_constraint_rule:
+  type: mapping
+  label: 'CssColor constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    formats:
+      type: sequence
+      label: 'Formats'
+      sequence:
+        type: string
+    message:
+      type: string
+      label: 'Message'
