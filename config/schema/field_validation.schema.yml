@@ -331,3 +331,14 @@ field_validation.rule.cidr_constraint_rule:
     netmaskRangeViolationMessage:
       type: string
       label: 'Netmask range violation message'
+
+field_validation.rule.ulid_constraint_rule:
+  type: mapping
+  label: 'Ulid constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
