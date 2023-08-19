@@ -289,3 +289,14 @@ field_validation.rule.hostname_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.json_constraint_rule:
+  type: mapping
+  label: 'Json constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
