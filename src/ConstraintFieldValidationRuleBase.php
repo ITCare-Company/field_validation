@@ -62,6 +62,17 @@ abstract class ConstraintFieldValidationRuleBase extends ConfigurableFieldValida
   }
 
   /**
+   * Get the constraint options which replaced with token.
+   *
+   * @return array
+   */
+  public function getReplacedConstraintOptions(array $params): array {
+    $constraintOptions = $this->getConstraintOptions();
+
+    return $constraintOptions;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function addFieldValidationRule(FieldValidationRuleSetInterface $field_validation_rule_set) {

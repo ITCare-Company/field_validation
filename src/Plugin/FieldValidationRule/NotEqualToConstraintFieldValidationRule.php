@@ -77,4 +77,19 @@ class NotEqualToConstraintFieldValidationRule extends ConstraintFieldValidationR
     $this->configuration['message'] = $form_state->getValue('message');
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getReplacedConstraintOptions(array $params): array {
+    $constraintOptions = $this->getConstraintOptions();
+
+    $data = $this->getTokenData($params);
+    if (empty($data)) {
+      return $constraintOptions;
+    }
+
+    $constraintOptions['value'] = $this->tokenService->replace($constraintOptions['value'], $data);
+    return $constraintOptions;
+  }
+
 }

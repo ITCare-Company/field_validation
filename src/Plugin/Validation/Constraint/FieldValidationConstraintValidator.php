@@ -77,10 +77,14 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
 	$class_resolver  = \Drupal::service('class_resolver');
     $constraint_validator_factory =  new ConstraintValidatorFactory($class_resolver);
 
+    $params = [];
+    $params['items'] = $items;
+    $params['context'] = $this->context;
+
     // Field level validation,
     foreach ($rules_field as $rule) {
       $constraint_name = $rule->getConstraintName();
-      $constraint_options = $rule->getConstraintOptions();
+      $constraint_options = $rule->getReplacedConstraintOptions($params);
 
       $real_constraint = $constraint_manager->createInstance($constraint_name, $constraint_options);
       $validator = $constraint_validator_factory->getInstance($real_constraint);
@@ -89,22 +93,21 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
     }
 
     // Property level validation
-    $params = [];
-    $params['items'] = $items;
-    $params['context'] = $this->context;
     if ($items->count() !== 0) {
       foreach ($items as $delta => $item) {
         // You can hard code configuration or you load from settings.
         foreach ($rules_property as $rule) {
           $column = $rule->getColumn();
           $value = $item->{$column};
+          $params['value'] = $value;
+
           // Add support property constraint
           $is_constraint_rule = ($rule instanceof ConstraintFieldValidationRuleBase);
           $validate_mode = $rule->getConfiguration()['data']['validate_mode'] ?? "default";
           // \Drupal::logger('field_validation')->notice("validate_mode:" . var_export($validate_mode,true));		
           if ($is_constraint_rule && $validate_mode == "default") {
             $constraint_name = $rule->getConstraintName();
-            $constraint_options = $rule->getConstraintOptions();
+            $constraint_options = $rule->getReplacedConstraintOptions($params);
             if ($rule->isPropertyConstraint()) {
               $real_constraint = $constraint_manager->createInstance($constraint_name, $constraint_options);
               $constraint_validator_factory =  new ConstraintValidatorFactory($class_resolver);
@@ -112,9 +115,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
               $validator->initialize($this->context);
               $validator->validate($value, $real_constraint);				
             }
-          }else{  		  
-
-            $params['value'] = $value;
+          }else{
             $params['delta'] = $delta;
             $config = [];
             $params['rule'] = $rule;
