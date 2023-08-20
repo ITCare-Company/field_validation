@@ -381,3 +381,17 @@ field_validation.rule.callback_constraint_rule:
     value:
       type: string
       label: 'Callback'
+
+field_validation.rule.identical_to_constraint_rule:
+  type: mapping
+  label: 'IdenticalTo constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    value:
+      type: string
+      label: 'Value'
+    message:
+      type: string
+      label: 'Message'
