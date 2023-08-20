@@ -487,9 +487,17 @@ field_validation.rule.positive_constraint_rule:
     validate_mode:
       type: string
       label: 'Validate mode'
-    value:
+    message:
       type: string
-      label: 'Value'
+      label: 'Message'
+
+field_validation.rule.positive_or_zero_constraint_rule:
+  type: mapping
+  label: 'PositiveOrZero constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
     message:
       type: string
       label: 'Message'
