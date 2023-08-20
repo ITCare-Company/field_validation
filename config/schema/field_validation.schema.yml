@@ -689,3 +689,14 @@ field_validation.rule.issn_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.isin_constraint_rule:
+  type: mapping
+  label: 'Isin constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
