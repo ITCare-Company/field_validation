@@ -672,3 +672,20 @@ field_validation.rule.isbn_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.issn_constraint_rule:
+  type: mapping
+  label: 'Issn constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    caseSensitive:
+      type: boolean
+      label: 'Case Sensitive'
+    requireHyphen:
+      type: boolean
+      label: 'Require Hyphen'
+    message:
+      type: string
+      label: 'Message'
