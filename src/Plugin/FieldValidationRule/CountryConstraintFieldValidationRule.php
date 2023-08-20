@@ -7,21 +7,21 @@ use Drupal\field_validation\ConstraintFieldValidationRuleBase;
 use Drupal\field_validation\FieldValidationRuleSetInterface;
 
 /**
- * Provides funcationality for LanguageConstraintFieldValidationRule.
+ * Provides funcationality for CountryConstraintFieldValidationRule.
  *
  * @FieldValidationRule(
- *   id = "language_constraint_rule",
- *   label = @Translation("Language constraint"),
- *   description = @Translation("Language constraint.")
+ *   id = "country_constraint_rule",
+ *   label = @Translation("Country constraint"),
+ *   description = @Translation("Country constraint.")
  * )
  */
-class LanguageConstraintFieldValidationRule extends ConstraintFieldValidationRuleBase {
+class CountryConstraintFieldValidationRule extends ConstraintFieldValidationRuleBase {
 
   /**
    * {@inheritdoc}
    */
   public function getConstraintName(): string{
-    return "Language";
+    return "Country";
   }
 
   /**
@@ -48,7 +48,7 @@ class LanguageConstraintFieldValidationRule extends ConstraintFieldValidationRul
     $form = parent::buildConfigurationForm($form, $form_state);
 
     //copied from core.
-    $message = 'This value is not a valid language.';
+    $message = 'This value is not a valid country.';
 
     $form['alpha3'] = [
       '#type' => 'checkbox',
