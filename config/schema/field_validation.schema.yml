@@ -559,3 +559,17 @@ field_validation.rule.time_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.Language_constraint_rule:
+  type: mapping
+  label: 'Language constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    alpha3:
+      type: boolean
+      label: 'Alpha3'
+    message:
+      type: string
+      label: 'Message'

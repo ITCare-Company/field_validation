@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints\ChoiceValidator;
  */
 class ChoiceConstraint extends Choice {
 
-    public $minMessage = 'You must select at least %limit choice.|You must select at least %limit choices.';
-    public $maxMessage = 'You must select at most %limit choice.|You must select at most %limit choices.';
+  public $minMessage = 'You must select at least %limit choice.|You must select at least %limit choices.';
+  public $maxMessage = 'You must select at most %limit choice.|You must select at most %limit choices.';
 
   /**
    * {@inheritdoc}
