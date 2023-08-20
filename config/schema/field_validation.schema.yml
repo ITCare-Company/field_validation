@@ -658,3 +658,17 @@ field_validation.rule.iban_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.isbn_constraint_rule:
+  type: mapping
+  label: 'Isbn constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    type:
+      type: string
+      label: 'Type'
+    message:
+      type: string
+      label: 'Message'
