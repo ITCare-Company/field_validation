@@ -548,3 +548,14 @@ field_validation.rule.date_time_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.time_constraint_rule:
+  type: mapping
+  label: 'Time constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
