@@ -700,3 +700,17 @@ field_validation.rule.isin_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.password_strength_constraint_rule:
+  type: mapping
+  label: 'PasswordStrength constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    minScore:
+      type: integer
+      label: 'Min score'
+    message:
+      type: string
+      label: 'Message'
