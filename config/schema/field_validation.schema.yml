@@ -437,3 +437,17 @@ field_validation.rule.less_than_or_equal_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.greater_than_constraint_rule:
+  type: mapping
+  label: 'GreaterThan constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    value:
+      type: string
+      label: 'Value'
+    message:
+      type: string
+      label: 'Message'
