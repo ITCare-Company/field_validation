@@ -512,3 +512,14 @@ field_validation.rule.negative_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.negative_or_zero_constraint_rule:
+  type: mapping
+  label: 'NegativeOrZero constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    message:
+      type: string
+      label: 'Message'
