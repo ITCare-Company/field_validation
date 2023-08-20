@@ -48,7 +48,7 @@ class PasswordStrengthConstraintFieldValidationRule extends ConstraintFieldValid
     $form = parent::buildConfigurationForm($form, $form_state);
 
     //copied from core.
-    $message = 'This value is not a valid ISBN.';
+    $message = 'The password strength is too low. Please use a stronger password.';
 
     $min_score_options = [
       1 => $this->t('Weak'),
@@ -59,7 +59,7 @@ class PasswordStrengthConstraintFieldValidationRule extends ConstraintFieldValid
 
     $form['minScore'] = [
       '#type' => 'select',
-      '#title' => $this->t('Type'),
+      '#title' => $this->t('Min score'),
       '#options' => $min_score_options,	  
       '#default_value' => $this->configuration['minScore'],
       '#required' => TRUE,
