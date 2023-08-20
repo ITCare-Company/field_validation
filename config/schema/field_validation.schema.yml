@@ -409,3 +409,17 @@ field_validation.rule.not_identical_to_constraint_rule:
     message:
       type: string
       label: 'Message'
+
+field_validation.rule.less_than_constraint_rule:
+  type: mapping
+  label: 'LessThan constraint validation rule'
+  mapping:
+    validate_mode:
+      type: string
+      label: 'Validate mode'
+    value:
+      type: string
+      label: 'Value'
+    message:
+      type: string
+      label: 'Message'
