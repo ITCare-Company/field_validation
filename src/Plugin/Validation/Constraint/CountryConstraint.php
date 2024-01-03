@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\CountryValidator;
  * Country constraint.
  *
  * @Constraint(
- *   id = "Country",
+ *   id = "SymfonyCountry",
  *   label = @Translation("Country", context = "Validation"),
  * )
  */

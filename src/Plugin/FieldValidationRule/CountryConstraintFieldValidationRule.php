@@ -21,7 +21,7 @@ class CountryConstraintFieldValidationRule extends ConstraintFieldValidationRule
    * {@inheritdoc}
    */
   public function getConstraintName(): string{
-    return "Country";
+    return "SymfonyCountry";
   }
 
   /**
