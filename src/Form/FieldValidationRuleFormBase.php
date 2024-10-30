@@ -2,19 +2,21 @@
 
 namespace Drupal\field_validation\Form;
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\CachedDiscoveryClearerInterface;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\field_validation\ConfigurableFieldValidationRuleInterface;
-use Drupal\field_validation\FieldValidationRuleSetInterface;
-use Drupal\Component\Plugin\Exception\PluginNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Plugin\CachedDiscoveryClearerInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\field_validation\ConstraintFieldValidationRuleBase;
+use Drupal\field_validation\FieldValidationRuleSetInterface;
+use Drupal\user\Entity\Role;
+use Drupal\user\RoleInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Provides a base form for FieldValidationRule.
@@ -172,7 +174,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
       '#options' => $field_options,
       '#default_value' => $default_field_name,
       '#required' => TRUE,
-      '#disabled' => TRUE,	  
+      '#disabled' => TRUE,
       //'#ajax' => [
       //  'callback' => [$this, 'updateColumn'],
       //  'wrapper' => 'edit-field-name-wrapper',
@@ -196,7 +198,7 @@ abstract class FieldValidationRuleFormBase extends FormBase {
         '#validated' => TRUE,
       ];
 	}
-	
+
     $form['data'] = $this->fieldValidationRule->buildConfigurationForm([], $form_state);
     //Not display it for constraint rule
     if (!$is_constraint_rule) {
@@ -228,14 +230,14 @@ abstract class FieldValidationRuleFormBase extends FormBase {
             ':input[name="data[validate_mode]"]' => ['value' => 'direct'],
           ],
         ],
-      ];	  
+      ];
       // Show the token help link.
       $form['pattern_container']['token_help'] = [
         '#theme' => 'token_tree_link',
-        '#token_types' => [$entity_type_id],	
+        '#token_types' => [$entity_type_id],
       ];
     }
-	  
+
     // Check the URL for a weight, then the fieldValidationRule
     // otherwise use default.
     $form['weight'] = [
@@ -244,11 +246,13 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     ];
 
     $test_roles = $this->fieldValidationRule->getApplicableRoles();
+    $roles = Role::loadMultiple();
+    $names =  array_map(fn(RoleInterface $role) => $role->label(), $roles);
     $form['roles'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Apply to this roles'),
       '#default_value' => $test_roles,
-      '#options' => array_map('\Drupal\Component\Utility\Html::escape', user_role_names()),
+      '#options' => array_map('\Drupal\Component\Utility\Html::escape', $names),
       '#description' => $this->t('If you select no roles, the rule will be applicable for all users.'),
       '#states' => [
         // Hide it when validate mode is direct.

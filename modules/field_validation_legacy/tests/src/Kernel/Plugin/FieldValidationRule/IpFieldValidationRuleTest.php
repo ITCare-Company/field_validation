@@ -160,7 +160,7 @@ class IpFieldValidationRuleTest extends FieldValidationRuleBase {
    * @return array
    *   Returns the dataset.
    */
-  public function ipValidProvider() {
+  public static function ipValidProvider() {
     return [
       'ipv4-1' => ['4', '192.168.1.1'],
       'ipv6-1' => ['6', '1200:0000:AB00:1234:0000:2552:7777:1313'],
@@ -191,7 +191,7 @@ class IpFieldValidationRuleTest extends FieldValidationRuleBase {
    * @return array
    *   Returns the dataset.
    */
-  public function ipInvalidProvider() {
+  public static function ipInvalidProvider() {
     return [
       'ipv4-1' => ['4', '1200:0000:AB00:1234:0000:2552:7777:1313'],
       'ipv6-1' => ['6', '192.168.1.1'],
@@ -222,7 +222,7 @@ class IpFieldValidationRuleTest extends FieldValidationRuleBase {
    * @return array
    *   Returns the dataset.
    */
-  public function ipMalformedAndEmptyProvider() {
+  public static function ipMalformedAndEmptyProvider() {
     return [
       ['4'],
       ['4_no_priv'],

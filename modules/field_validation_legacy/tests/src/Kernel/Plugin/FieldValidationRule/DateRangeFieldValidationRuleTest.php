@@ -170,7 +170,7 @@ class DateRangeFieldValidationRuleTest extends FieldValidationRuleBase {
    * @return array
    *   Returns dataset.
    */
-  public function dateValidProvider() {
+  public static function dateValidProvider() {
     return [
       'global-upper-border' => [
         'global',
@@ -253,7 +253,7 @@ class DateRangeFieldValidationRuleTest extends FieldValidationRuleBase {
    * @return array
    *   Returns dataset.
    */
-  public function dateInvalidProvider() {
+  public static function dateInvalidProvider() {
     return [
       'global-upper-border' => [
         'global',
