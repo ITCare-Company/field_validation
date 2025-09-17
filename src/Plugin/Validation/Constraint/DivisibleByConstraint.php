@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\DivisibleByValidator;
  */
 class DivisibleByConstraint extends DivisibleBy {
 
-  public $message = 'This value should be a multiple of %compared_value.';
+  public string $message = 'This value should be a multiple of %compared_value.';
   /**
    * {@inheritdoc}
    */

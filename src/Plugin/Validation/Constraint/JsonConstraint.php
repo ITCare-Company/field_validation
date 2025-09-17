@@ -18,7 +18,7 @@ class JsonConstraint extends Json {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return JsonValidator::class;
   }
 

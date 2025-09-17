@@ -18,7 +18,7 @@ class IsTrueConstraint extends IsTrue {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return IsTrueValidator::class;
   }
 

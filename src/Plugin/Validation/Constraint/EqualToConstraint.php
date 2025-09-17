@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\EqualToValidator;
  */
 class EqualToConstraint extends EqualTo {
 
-  public $message = 'This value should be equal to %compared_value.';
+  public string $message = 'This value should be equal to %compared_value.';
   /**
    * {@inheritdoc}
    */

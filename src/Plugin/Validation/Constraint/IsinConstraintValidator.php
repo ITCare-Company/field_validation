@@ -15,7 +15,7 @@ final class IsinConstraintValidator extends IsinValidator {
     /**
      * @return void
      */
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof Isin) {
             throw new UnexpectedTypeException($constraint, Isin::class);
@@ -119,6 +119,6 @@ final class IsinConstraintValidator extends IsinValidator {
         $digit = $rem % 10;
 
         return $digit;
-    }	
+    }
 
 }

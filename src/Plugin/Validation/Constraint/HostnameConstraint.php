@@ -18,7 +18,7 @@ class HostnameConstraint extends Hostname {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return HostnameValidator::class;
   }
 

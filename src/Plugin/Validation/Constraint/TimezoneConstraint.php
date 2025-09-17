@@ -18,7 +18,7 @@ class TimezoneConstraint extends Timezone {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return TimezoneValidator::class;
   }
 

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\NotEqualToValidator;
  */
 class NotEqualToConstraint extends NotEqualTo {
 
-  public $message = 'This value should not be equal to %compared_value.';
+  public string $message = 'This value should not be equal to %compared_value.';
   /**
    * {@inheritdoc}
    */

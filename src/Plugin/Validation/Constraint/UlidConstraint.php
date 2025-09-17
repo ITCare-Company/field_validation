@@ -18,7 +18,7 @@ class UlidConstraint extends Ulid {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return UlidValidator::class;
   }
 

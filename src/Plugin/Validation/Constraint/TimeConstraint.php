@@ -18,7 +18,7 @@ class TimeConstraint extends Time {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return TimeValidator::class;
   }
 

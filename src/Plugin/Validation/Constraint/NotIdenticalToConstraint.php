@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\NotIdenticalToValidator;
  */
 class NotIdenticalToConstraint extends NotIdenticalTo {
 
-  public $message = 'This value should not be identical to %compared_value_type %compared_value.';
+  public string $message = 'This value should not be identical to %compared_value_type %compared_value.';
   /**
    * {@inheritdoc}
    */

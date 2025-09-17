@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqualValidator;
  */
 class LessThanOrEqualConstraint extends LessThanOrEqual {
 
-  public $message = 'This value should be less than or equal to %compared_value.';
+  public string $message = 'This value should be less than or equal to %compared_value.';
   /**
    * {@inheritdoc}
    */

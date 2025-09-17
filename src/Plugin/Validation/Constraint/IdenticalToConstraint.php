@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\IdenticalToValidator;
  */
 class IdenticalToConstraint extends IdenticalTo {
 
-  public $message = 'This value should be identical to %compared_value_type %compared_value.';
+  public string $message = 'This value should be identical to %compared_value_type %compared_value.';
   /**
    * {@inheritdoc}
    */

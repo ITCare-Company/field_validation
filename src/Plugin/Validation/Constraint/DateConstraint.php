@@ -18,7 +18,7 @@ class DateConstraint extends Date {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return DateValidator::class;
   }
 

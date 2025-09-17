@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\GreaterThanValidator;
  */
 class GreaterThanConstraint extends GreaterThan {
 
-  public $message = 'This value should be greater than %compared_value.';
+  public string $message = 'This value should be greater than %compared_value.';
   /**
    * {@inheritdoc}
    */

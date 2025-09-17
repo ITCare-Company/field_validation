@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\LessThanValidator;
  */
 class LessThanConstraint extends LessThan {
 
-  public $message = 'This value should be less than %compared_value.';
+  public string $message = 'This value should be less than %compared_value.';
   /**
    * {@inheritdoc}
    */

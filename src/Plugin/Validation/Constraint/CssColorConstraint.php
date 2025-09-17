@@ -18,7 +18,7 @@ class CssColorConstraint extends CssColor {
   /**
    * {@inheritdoc}
    */
-  public function validatedBy() {
+  public function validatedBy(): string {
     return CssColorValidator::class;
   }
 
