@@ -21,7 +21,7 @@ class CurrencyConstraintFieldValidationRule extends ConstraintFieldValidationRul
    * {@inheritdoc}
    */
   public function getConstraintName(): string{
-    return "Currency";
+    return "SymfonyCurrency";
   }
 
   /**

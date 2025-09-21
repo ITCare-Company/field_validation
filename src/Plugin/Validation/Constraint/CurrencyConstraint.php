@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\CurrencyValidator;
  * Currency constraint.
  *
  * @Constraint(
- *   id = "Currency",
+ *   id = "SymfonyCurrency",
  *   label = @Translation("Currency", context = "Validation"),
  * )
  */
