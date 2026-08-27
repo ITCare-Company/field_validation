@@ -173,4 +173,57 @@ class RegexConstraintFieldValidationRuleTest extends FieldValidationRuleBase {
     $this->assertEmpty($form_state->getErrors());
   }
 
+  /**
+   * Reproduces the scenario reported in issue #3391589.
+   *
+   * With "match" inverted, the pattern instead describes what is
+   * *forbidden*: a value is only invalid if it matches the pattern.
+   * "Alexander" does not contain the literal substring " and " (with
+   * surrounding spaces) so it must pass, while a value that does contain it
+   * must fail.
+   */
+  public function testInvertedMatchFlagsValuesContainingPattern() {
+    $this->updateSettings(
+      [
+        'pattern' => '/(.*) and (.*)/',
+        'match' => FALSE,
+      ],
+      self::RULE_ID,
+      self::RULE_TITLE,
+      $this->ruleSet,
+      self::FIELD_NAME
+    );
+
+    $this->assertConstraintPass($this->entity, self::FIELD_NAME, 'Alexander');
+    $this->assertConstraintFail(
+      $this->entity,
+      self::FIELD_NAME,
+      'Bill and Ted',
+      $this->ruleSet
+    );
+  }
+
+  /**
+   * An explicit "match" => FALSE must survive getConstraintOptions().
+   *
+   * Array_filter() without a callback strips boolean FALSE, which would
+   * silently discard an inverted match setting and fall back to Symfony's
+   * own default (match => TRUE). Regression test for that trap.
+   */
+  public function testExplicitFalseMatchOptionIsPreserved() {
+    $plugin_manager = \Drupal::service('plugin.manager.field_validation.field_validation_rule');
+    $rule = $plugin_manager->createInstance(self::RULE_ID, []);
+    $rule->setConfiguration([
+      'data' => [
+        'pattern' => '/(.*) and (.*)/',
+        'match' => FALSE,
+      ],
+    ]);
+
+    $options = $rule->getConstraintOptions();
+
+    $this->assertArrayHasKey('match', $options);
+    $this->assertFalse($options['match']);
+  }
+
 }

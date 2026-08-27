@@ -37,6 +37,7 @@ class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
     return [
       'pattern' => NULL,
       'message' => NULL,
+      'match' => TRUE,
     ] + parent::defaultConfiguration();
   }
 
@@ -52,9 +53,16 @@ class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
     $form['pattern'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Pattern'),
-      '#description' => $this->t('A PCRE regular expression, including its delimiters, e.g. <code>/^[a-z0-9]+$/</code>. Unlike Drupal 7, the pattern must be wrapped in delimiters (commonly <code>/</code>); a bare expression such as <code>^[a-z0-9]+$</code> is not valid.'),
+      '#description' => $this->t('A PCRE regular expression, including its delimiters, e.g. <code>/^[a-z0-9]+$/</code>. Unlike Drupal 7, the pattern must be wrapped in delimiters (commonly <code>/</code>); a bare expression such as <code>^[a-z0-9]+$</code> is not valid. By default the value is considered <strong>valid</strong> only if it matches this pattern; uncheck "Value must match the pattern to be valid" below to instead flag values that match the pattern as invalid.'),
       '#default_value' => $this->configuration['pattern'],
       '#required' => TRUE,
+    ];
+
+    $form['match'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Value must match the pattern to be valid'),
+      '#description' => $this->t('Checked (default): the value is valid only if it matches the pattern. Unchecked: the value is valid only if it does NOT match the pattern, e.g. to flag values containing a forbidden substring or word.'),
+      '#default_value' => $this->configuration['match'] ?? TRUE,
     ];
 
     $form['message'] = [
@@ -75,6 +83,7 @@ class RegexConstraintFieldValidationRule extends ConstraintFieldValidationRuleBa
 
     $this->configuration['pattern'] = $form_state->getValue('pattern');
     $this->configuration['message'] = $form_state->getValue('message');
+    $this->configuration['match'] = (bool) $form_state->getValue('match');
   }
 
   /**
