@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Drupal\field_validation\ConstraintFieldValidationRuleBase;
 use Drupal\Core\Validation\ConstraintValidatorFactory;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 
 /**
  * Validates the FieldValidation constraint.
@@ -109,11 +110,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
             $constraint_name = $rule->getConstraintName();
             $constraint_options = $rule->getReplacedConstraintOptions($params);
             if ($rule->isPropertyConstraint()) {
-              $real_constraint = $constraint_manager->createInstance($constraint_name, $constraint_options);
-              $constraint_validator_factory =  new ConstraintValidatorFactory($class_resolver);
-              $validator = $constraint_validator_factory->getInstance($real_constraint);
-              $validator->initialize($this->context);
-              $validator->validate($value, $real_constraint);				
+              $this->validatePropertyValue($constraint_name, $constraint_options, $value);
             }
           }else{
             $params['delta'] = $delta;
@@ -123,6 +120,31 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
             $plugin_validator = $field_validation_rule_manager->createInstance($rule->getPluginId(), $config);
             $plugin_validator->validate($params);
 		  }
+        }
+      }
+
+      // The widget/form layer may have already stripped one or more blank
+      // deltas via FieldItemList::filterEmptyItems() before validation ever
+      // ran, so $items can under-report how many values the field is meant
+      // to hold. When the field storage has a bounded (non-unlimited)
+      // cardinality greater than the number of items actually present,
+      // treat each missing delta the same way a fully empty field is
+      // treated below, so property constraints such as NotBlank still
+      // catch a blank value left in the middle of a multi-value field.
+      // Unlimited-cardinality fields are left alone: there is no way to
+      // know how many widget rows were rendered, so flagging anything here
+      // would produce false positives for legitimately shorter lists.
+      $cardinality = $items->getFieldDefinition()->getFieldStorageDefinition()->getCardinality();
+      if ($cardinality !== FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED && $cardinality > $items->count()) {
+        for ($missing_delta = $items->count(); $missing_delta < $cardinality; $missing_delta++) {
+          foreach ($rules_property as $rule) {
+            $value = NULL;
+            $is_constraint_rule = ($rule instanceof ConstraintFieldValidationRuleBase);
+            $validate_mode = $rule->getConfiguration()['data']['validate_mode'] ?? "default";
+            if ($is_constraint_rule && $validate_mode == "default" && $rule->isPropertyConstraint()) {
+              $this->validatePropertyValue($rule->getConstraintName(), $rule->getConstraintOptions(), $value);
+            }
+          }
         }
       }
 
@@ -141,11 +163,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
           $constraint_name = $rule->getConstraintName();
           $constraint_options = $rule->getConstraintOptions();
           if ($rule->isPropertyConstraint()) {
-            $real_constraint = $constraint_manager->createInstance($constraint_name, $constraint_options);
-            $constraint_validator_factory =  new ConstraintValidatorFactory($class_resolver);
-            $validator = $constraint_validator_factory->getInstance($real_constraint);
-            $validator->initialize($this->context);
-            $validator->validate($value, $real_constraint);				
+            $this->validatePropertyValue($constraint_name, $constraint_options, $value);
           }
         }else{  			  
           $params['value'] = NULL;
@@ -158,6 +176,23 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
         }
       }
     }
+  }
+
+  /**
+   * Validates a single property value against a constraint plugin.
+   *
+   * @param string $constraint_name
+   *   The constraint plugin ID.
+   * @param array $constraint_options
+   *   The options to instantiate the constraint with.
+   * @param mixed $value
+   *   The property value to validate; NULL for a missing value.
+   */
+  protected function validatePropertyValue(string $constraint_name, array $constraint_options, $value): void {
+    $constraint = \Drupal::service('validation.constraint')->createInstance($constraint_name, $constraint_options);
+    $validator = (new ConstraintValidatorFactory(\Drupal::service('class_resolver')))->getInstance($constraint);
+    $validator->initialize($this->context);
+    $validator->validate($value, $constraint);
   }
 
 }
