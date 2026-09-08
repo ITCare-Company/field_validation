@@ -7,6 +7,7 @@
 * Installation
 * Configuration
 * Upgrading from 8.x-1.x
+* Security
 * Developer notes
 * Maintainers
 
@@ -83,6 +84,24 @@ For any *new* rules, use the Constraint-API-based rules shipped in the main
 going forward. `field_validation_legacy` exists for backward compatibility
 only; see
 [#3377899](https://www.drupal.org/project/field_validation/issues/3377899).
+
+
+# SECURITY
+----------
+
+The "administer field validation rule set" permission is marked restricted
+because two bundled rule types execute admin-entered code as part of
+validation:
+
+* **Callback constraint** — invokes an admin-entered "Class::method" static
+  callable directly against the field value.
+* **Expression constraint** — evaluates an admin-entered expression-language
+  string against the field value.
+
+Both rule types are gated behind the same permission as ordinary rules like
+Length or Regex, so granting it means granting code execution, not just
+configuration access. Only give "administer field validation rule set" to
+fully trusted roles.
 
 
 # DEVELOPER NOTES
