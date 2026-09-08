@@ -372,6 +372,12 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     }
     $field_validation_rule_data = (new FormState())->setValues($data);
     $this->fieldValidationRule->validateConfigurationForm($form, $field_validation_rule_data);
+    // Errors set on the plugin's own configuration form state are recorded
+    // on that separate FormState object, so they must be copied onto the
+    // real $form_state to actually be displayed to the user.
+    foreach ($field_validation_rule_data->getErrors() as $name => $message) {
+      $form_state->setErrorByName('data][' . $name, $message);
+    }
     // Update the original form values.
     $form_state->setValue('data', $field_validation_rule_data->getValues());
   }
