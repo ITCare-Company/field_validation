@@ -380,6 +380,22 @@ abstract class FieldValidationRuleFormBase extends FormBase {
     }
     // Update the original form values.
     $form_state->setValue('data', $field_validation_rule_data->getValues());
+
+    // "Direct" validate mode attaches the Symfony constraint straight to
+    // the field definition, bypassing FieldValidationConstraintValidator
+    // entirely - which is the only place role scoping and the condition
+    // check are enforced. The roles/condition fields are only hidden via
+    // #states (a client-side, JS-only affordance), not removed from the
+    // form, so a value set before switching to Direct would otherwise be
+    // silently saved and silently never enforced. Block the save instead.
+    if (($data['validate_mode'] ?? 'default') === 'direct') {
+      $roles = array_filter($form_state->getValue('roles') ?? []);
+      $condition = $form_state->getValue('condition') ?? [];
+      $condition_is_set = !empty($condition['field']) && !empty($condition['operator']);
+      if (!empty($roles) || $condition_is_set) {
+        $form_state->setErrorByName('data][validate_mode', $this->t('"Direct" validate mode does not enforce role or condition scoping - it bypasses both. Clear the selected roles and the condition, or use "Default" validate mode instead.'));
+      }
+    }
   }
 
   /**

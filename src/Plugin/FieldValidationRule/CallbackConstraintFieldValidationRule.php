@@ -72,7 +72,11 @@ class CallbackConstraintFieldValidationRule extends ConstraintFieldValidationRul
   public function getConstraintOptions(): array {
     $constraintOptions = [];
 
-    $constraintOptions['value'] = explode("::", $this->configuration['value']);
+    // Symfony's Callback constraint constructor parameter is named
+    // $callback, not $value. Drupal's ConstraintFactory spreads this array
+    // as named arguments, so a 'value' key here fatals with "Unknown named
+    // parameter $value" instead of ever reaching the callback comparison.
+    $constraintOptions['callback'] = explode("::", $this->configuration['value']);
     return $constraintOptions;
   }
 
