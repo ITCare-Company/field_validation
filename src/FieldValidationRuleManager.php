@@ -5,6 +5,7 @@ namespace Drupal\field_validation;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\field_validation\Attribute\FieldValidationRule as FieldValidationRuleAttribute;
 
 /**
  * Manages FieldValidationRule plugins.
@@ -31,7 +32,7 @@ class FieldValidationRuleManager extends DefaultPluginManager {
    *   The module handler.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/FieldValidationRule', $namespaces, $module_handler, 'Drupal\field_validation\FieldValidationRuleInterface', 'Drupal\field_validation\Annotation\FieldValidationRule');
+    parent::__construct('Plugin/FieldValidationRule', $namespaces, $module_handler, 'Drupal\field_validation\FieldValidationRuleInterface', FieldValidationRuleAttribute::class, 'Drupal\field_validation\Annotation\FieldValidationRule');
 
     $this->alterInfo('field_validation_rule_info');
     $this->setCacheBackend($cache_backend, 'field_validation_rule_plugins');
