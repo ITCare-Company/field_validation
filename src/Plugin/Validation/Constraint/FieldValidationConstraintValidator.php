@@ -16,7 +16,7 @@ class FieldValidationConstraintValidator extends ConstraintValidator {
   /**
    * {@inheritdoc}
    */
-  public function validate($items, Constraint $constraint) {
+  public function validate(mixed $items, Constraint $constraint): void {
     $ruleset_name = $constraint->ruleset_name;
     $ruleset = \Drupal::entityTypeManager()->getStorage('field_validation_rule_set')->load($ruleset_name);
     if (empty($ruleset)) {
